@@ -266,7 +266,7 @@
 
                                         <input type="file" name="tax_document" id="tax_document" required
                                             class="custom-file-input"
-                                            accept=".jpg, .png, .jpeg, .gif, .bmp, .tif, .tiff, .pdf, .doc, .docx|image/*, application/pdf, application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document">
+                                            accept=".jpg, .png, .jpeg">
                                     </label>
                                 </div>
                                 <div class="col-3 card p-5 mx-5">
@@ -284,7 +284,7 @@
 
                                         <input type="file" name="registration_document" id="registration_document" required
                                             class="custom-file-input"
-                                            accept=".jpg, .png, .jpeg, .gif, .bmp, .tif, .tiff, .pdf, .doc, .docx|image/*, application/pdf, application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document">
+                                            accept=".jpg, .png, .jpeg">
                                     </label>
                                 </div>
                                 <div class="col-4 card p-5 mx-5">
@@ -294,15 +294,19 @@
                                         </label>
 
                                         <div class="text-center">
-                                            <img class="img--110 onerror-image" id="agreement_document_view"
-                                                data-onerror-image="{{ asset('public/assets/admin/img/important-file.png') }}"
-                                                src="{{ asset('public/assets/admin/img/important-file-upload.png') }}"
-                                                alt="agreement_document" />
+                                            <a href="{{route('deliveryman.download-delivery-man-agreement')}}" download="download">
+                                                <img class="img--110 onerror-image" id="agreement_document_view"
+                                                     data-onerror-image="{{ asset('public/assets/admin/img/important-file.png') }}"
+                                                     src="{{ asset('public/assets/admin/img/important-file.png') }}"
+                                                     alt="agreement_document" />
+                                                <br>
+                                                <span class="text-center" style="text-decoration: none;">Download</span>
+                                            </a>
                                         </div>
 
-                                        <input type="file" name="agreement_document" id="agreement_document" required
-                                            class="custom-file-input"
-                                            accept=".jpg, .png, .jpeg, .gif, .bmp, .tif, .tiff, .pdf, .doc, .docx|image/*, application/pdf, application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document">
+{{--                                        <input type="file" name="agreement_document" id="agreement_document" required--}}
+{{--                                            class="custom-file-input"--}}
+{{--                                            accept=".jpg, .png, .jpeg, .gif, .bmp, .tif, .tiff, .pdf, .doc, .docx|image/*, application/pdf, application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document">--}}
                                     </label>
                                 </div>
 
@@ -449,8 +453,15 @@ data-original-title="{{ translate('messages.select_zone_for_map') }}"><img
                         </div>
                     </div>
                 </div>
+                    {{--                            mainul start--}}
+                    <div class=" pt-4 ps-4 d-flex flex-wrap ">
+                        <label for="termsConditions">
+                            <input type="checkbox" style="width: auto" name="agree_terms_conditions" id="termsConditions"> I agree to the <a href="https://mixmrt.com/terms-and-condition.php" style="text-decoration: none; color: blue" target="_blank">Terms and Conditions</a>.
+                        </label>
+                    </div>
+                    {{--                            mainul ends--}}
                 <div class="text-end">
-                    <button type="submit" class="cmn--btn rounded-md border-0 outline-0 mt-0 m-3">{{ translate('messages.submit') }}</button>
+                    <button type="submit" class="cmn--btn rounded-md border-0 outline-0 mt-0 m-3" id="nextBtn">{{ translate('messages.submit') }}</button>
                 </div>
         </div>
             </form>
@@ -642,6 +653,22 @@ data-original-title="{{ translate('messages.select_zone_for_map') }}"><img
                     });
                 </script>
             @endif
+
+        {{--        mainul starts--}}
+        <script>
+            $(document).on('click', '#nextBtn', function (e) {
+                if ($('#termsConditions').length)
+                {
+
+                    if (!$('#termsConditions').is(':checked'))
+                    {
+                        e.preventDefault();
+                        toastr.error('You must agree with our terms and conditions.');
+                    }
+                }
+            })
+        </script>
+        {{--        mainul ends--}}
 
     <script src="{{ asset('public/assets/landing/js/select2.min.js') }}"></script>
     @endpush

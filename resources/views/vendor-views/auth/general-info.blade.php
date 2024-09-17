@@ -281,11 +281,11 @@
                                     </h5>
                                 </div>
                                 <div class="card-body d-flex justify-content-center align-items-center">
-        
+
                                     <div class="row g-12 w-100 d-flex justify-content-start align-items-center">
-        
-        
-        
+
+
+
                                         <div class="col-md-4 col-lg-4 col-sm-12">
                                             <div class="form-group">
                                                 <label class="input-label"
@@ -296,7 +296,7 @@
                                                     value="{{ old('tax_id') }}" required>
                                             </div>
                                         </div>
-        
+
                                         <div class="col-md-4 col-lg-4 col-sm-12">
                                             <div class="form-group">
                                                 <label class="input-label"
@@ -307,25 +307,25 @@
                                                     value="{{ old('registration_number') }}" required>
                                             </div>
                                         </div>
-        
-        
-        
+
+
+
                                         <div class="col-3 card p-5 mx-5">
                                             <label class="__custom-upload-img">
                                                 <label class="form-label">
                                                     {{ translate('tax_document') }}
                                                 </label>
-        
+
                                                 <div class="text-center">
                                                     <img class="img--110 onerror-image" id="tax_document_view"
                                                         data-onerror-image="{{ asset('public/assets/admin/img/important-file.png') }}"
                                                         src="{{ asset('public/assets/admin/img/important-file-upload.png') }}"
                                                         alt="tax_document" />
                                                 </div>
-        
+
                                                 <input type="file" name="tax_document" id="tax_document" required
                                                     class="custom-file-input"
-                                                    accept=".jpg, .png, .jpeg, .gif, .bmp, .tif, .tiff, .pdf, .doc, .docx|image/*, application/pdf, application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document">
+                                                    accept=".jpg, .png, .jpeg"> <!--mainul-->
                                             </label>
                                         </div>
                                         <div class="col-3 card p-5 mx-5">
@@ -333,17 +333,17 @@
                                                 <label class="form-label">
                                                     {{ translate('registration_document') }}
                                                 </label>
-        
+
                                                 <div class="text-center">
                                                     <img class="img--110 onerror-image" id="registration_document_view"
                                                         data-onerror-image="{{ asset('public/assets/admin/img/important-file.png') }}"
                                                         src="{{ asset('public/assets/admin/img/important-file-upload.png') }}"
                                                         alt="registration_document" />
                                                 </div>
-        
+
                                                 <input type="file" name="registration_document" id="registration_document" required
                                                     class="custom-file-input"
-                                                    accept=".jpg, .png, .jpeg, .gif, .bmp, .tif, .tiff, .pdf, .doc, .docx|image/*, application/pdf, application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document">
+                                                    accept=".jpg, .png, .jpeg"> {{--mainul--}}
                                             </label>
                                         </div>
                                         <div class="col-4 card p-5 mx-5">
@@ -351,23 +351,28 @@
                                                 <label class="form-label">
                                                     {{ translate('agreement/contact document  ') }}
                                                 </label>
-        
+
                                                 <div class="text-center">
-                                                    <img class="img--110 onerror-image" id="agreement_document_view"
-                                                        data-onerror-image="{{ asset('public/assets/admin/img/important-file.png') }}"
-                                                        src="{{ asset('public/assets/admin/img/important-file-upload.png') }}"
-                                                        alt="agreement_document" />
+                                                    <a href="{{route('restaurant.download-store-agreement')}}" download="download"> <!--mainul-->
+                                                        <img class="img--110 onerror-image" id="agreement_document_view"
+                                                             data-onerror-image="{{ asset('public/assets/admin/img/important-file.png') }}"
+                                                             src="{{ asset('public/assets/admin/img/important-file.png') }}"
+                                                             alt="agreement_document" />
+                                                        <br>
+                                                        <span class="text-center" style="text-decoration: none;">Download</span>
+                                                    </a>
                                                 </div>
-        
-                                                <input type="file" name="agreement_document" id="agreement_document" required
-                                                    class="custom-file-input"
-                                                    accept=".jpg, .png, .jpeg, .gif, .bmp, .tif, .tiff, .pdf, .doc, .docx|image/*, application/pdf, application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document">
+
+{{--                                                mainul--}}
+{{--                                                <input type="file" name="agreement_document" id="agreement_document" required--}}
+{{--                                                    class="custom-file-input"--}}
+{{--                                                    accept=".jpg, .png, .jpeg, .gif, .bmp, .tif, .tiff, .pdf, .doc, .docx|image/*, application/pdf, application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document">--}}
                                             </label>
                                         </div>
-        
-        
+
+
                                     </div>
-        
+
                                 </div>
                             </div>
                         </div>
@@ -472,10 +477,17 @@
                                 </div>
                             </div>
                         </div>
+{{--                            mainul start--}}
+                            <div class=" pt-4 d-flex flex-wrap ">
+                                <label for="termsConditions">
+                                    <input type="checkbox" style="width: auto" name="agree_terms_conditions" id="termsConditions"> I agree to the <a href="https://mixmrt.com/terms-and-condition.php" style="text-decoration: none; color: blue" target="_blank">Terms and Conditions</a>.
+                                </label>
+                            </div>
+{{--                            mainul ends--}}
                         <div class="text-end pt-4 d-flex flex-wrap justify-content-end gap-3">
                             <button type="reset" class="cmn--btn btn--secondary shadow-none rounded-md border-0 outline-0">{{ translate('Back')
                                 }}</button>
-                            <button type="submit" class="cmn--btn rounded-md border-0 outline-0">{{ translate('Next')
+                            <button type="submit" class="cmn--btn rounded-md border-0 outline-0" id="nextBtn">{{ translate('Next')
                                 }}</button>
                         </div>
                     </div>
@@ -655,6 +667,21 @@
                 </script>
             @endif
 
+{{--        mainul starts--}}
+        <script>
+            $(document).on('click', '#nextBtn', function (e) {
+                if ($('#termsConditions').length)
+                {
+
+                    if (!$('#termsConditions').is(':checked'))
+                    {
+                        e.preventDefault();
+                        toastr.error('You must agree with our terms and conditions.');
+                    }
+                }
+            })
+        </script>
+{{--        mainul ends--}}
 
 
     <script src="{{ asset('public/assets/landing/js/select2.min.js') }}"></script>

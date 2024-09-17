@@ -89,11 +89,12 @@ class VendorController extends Controller
             'logo' => 'required',
             'tax' => 'required',
             'delivery_time_type'=>'required',
-            'tax_id'=>'required',
+            'tax_id'=>'required|unique:stores', // mainul
             'register_no'=>'required',
-            'tax_document'=>'required|file|max:5120|mimes:jpg,png,jpeg,gif,bmp,tif,tiff,pdf,doc,docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-            'registration_document'=>'required|file|max:5120|mimes:jpg,png,jpeg,gif,bmp,tif,tiff,pdf,doc,docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-            'agreement_document'=>'required|file|max:5120|mimes:jpg,png,jpeg,gif,bmp,tif,tiff,pdf,doc,docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+            'tax_document'=>'required|file|max:5120|mimes:jpg,png,jpeg', // mainul
+            'registration_document'=>'required|file|max:5120|mimes:jpg,png,jpeg', // mainul
+            'agreement_document'=>'file|max:5120|mimes:jpg,png,jpeg', // mainul
+//            'agreement_document'=>'required|file|max:5120|mimes:jpg,png,jpeg,gif,bmp,tif,tiff,pdf,doc,docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document',
         ]);
         if ($validator->fails()) {
             return back()
@@ -147,8 +148,11 @@ class VendorController extends Controller
         $registration_document_extension = $request->file('registration_document')->extension();
         $store->registration_document = Helpers::upload('store/', $registration_document_extension, $request->file('registration_document'));
 
-        $agreement_document_extension = $request->file('agreement_document')->extension();
-        $store->agreement_document = Helpers::upload('store/', $agreement_document_extension, $request->file('agreement_document'));
+        if ($request->hasFile('agreement_document')) // mainul
+        {
+            $agreement_document_extension = $request->file('agreement_document')->extension();
+            $store->agreement_document = Helpers::upload('store/', $agreement_document_extension, $request->file('agreement_document'));
+        }
         $store->save();
 
         $default_lang = str_replace('_', '-', app()->getLocale());
@@ -425,11 +429,11 @@ public function final_step(Request $request){
             // 'module_id' => 'required',
             'logo' => 'required',
             // 'tax' => 'required',
-            'tax_id'=>'required',
+            'tax_id'=>'required|unique:vendors',
             'register_no'=>'required',
-            'tax_document'=>'required|file|max:5120|mimes:jpg,png,jpeg,gif,bmp,tif,tiff,pdf,doc,docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-            'registration_document'=>'required|file|max:5120|mimes:jpg,png,jpeg,gif,bmp,tif,tiff,pdf,doc,docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-            'agreement_document'=>'required|file|max:5120|mimes:jpg,png,jpeg,gif,bmp,tif,tiff,pdf,doc,docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+            'tax_document'=>'required|file|max:5120|mimes:jpg,png,jpeg',
+            'registration_document'=>'required|file|max:5120|mimes:jpg,png,jpeg',
+            'agreement_document'=>'required|file|max:5120|mimes:jpg,png,jpeg',
         ], [
             'f_name.required' => translate('messages.first_name_is_required'),
             'name.0.required'=>translate('default_name_is_required'),

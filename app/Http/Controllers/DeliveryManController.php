@@ -68,14 +68,14 @@ class DeliveryManController extends Controller
         $request->validate([
             'f_name' => 'required|max:100',
             'l_name' => 'nullable|max:100',
-            'identity_number' => 'required|max:30',
+            'identity_number' => 'required|max:30|unique:delivery_men', //mainul
             'email' => 'required|unique:delivery_men',
             'phone' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:10|unique:delivery_men',
             'zone_id' => 'required',
             'vehicle_id' => 'required',
             'earning' => 'required',
             'password' => ['required', Password::min(8)->mixedCase()->letters()->numbers()->symbols()->uncompromised()],
-            'agreement_document'=>'required|file|max:5120|mimes:jpg,png,jpeg,gif,bmp,tif,tiff,pdf,doc,docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+            'agreement_document'=>'required|file|max:5120|mimes:jpg,png,jpeg', // mainul
         ], [
             'f_name.required' => translate('messages.first_name_is_required'),
             'zone_id.required' => translate('messages.select_a_zone'),

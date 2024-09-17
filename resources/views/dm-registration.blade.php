@@ -124,11 +124,11 @@ $countryCode= strtolower($country?$country->value:'auto');
                                     <div class="form-group mb-3">
                                         <label class="input-label"
                                             for="exampleFormControlInput1">{{ translate('messages.identity_type') }}</label>
-                                        <select name="identity_type" class="form-control __form-control">
-                                            <option value="passport">{{ translate('messages.passport') }}</option>
-                                            <option value="driving_license">{{ translate('messages.driving_license') }}</option>
+                                        <select name="identity_type" class="form-control __form-control"> <!--mainul-->
+{{--                                            <option value="passport">{{ translate('messages.passport') }}</option>--}}
+{{--                                            <option value="driving_license">{{ translate('messages.driving_license') }}</option>--}}
                                             <option value="nid">{{ translate('messages.nid') }}</option>
-                                            <option value="restaurant_id">{{ translate('messages.store_id') }}</option>
+{{--                                            <option value="restaurant_id">{{ translate('messages.store_id') }}</option>--}}
                                         </select>
                                     </div>
                                 </div>
@@ -156,15 +156,19 @@ $countryCode= strtolower($country?$country->value:'auto');
                                         </label>
 
                                         <div class="text-center">
-                                            <img class="img--110 onerror-image" id="agreement_document_view"
-                                                data-onerror-image="{{ asset('public/assets/admin/img/important-file.png') }}"
-                                                src="{{ asset('public/assets/admin/img/important-file-upload.png') }}"
-                                                alt="registration_document" />
+                                            <a href="{{route('deliveryman.download-delivery-man-agreement')}}" download="download">
+                                                <img class="img--110 onerror-image" id="agreement_document_view"
+                                                     data-onerror-image="{{ asset('public/assets/admin/img/important-file.png') }}"
+                                                     src="{{ asset('public/assets/admin/img/important-file.png') }}"
+                                                     alt="registration_document" />
+                                                <br>
+                                                <span class="text-center" style="text-decoration: none;">Download</span>
+                                            </a>
                                         </div>
 
-                                        <input type="file" name="agreement_document" id="agreement_document" required
-                                            class="custom-file-input"
-                                            accept=".jpg, .png, .jpeg, .gif, .bmp, .tif, .tiff, .pdf, .doc, .docx|image/*, application/pdf, application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document">
+{{--                                        <input type="file" name="agreement_document" id="agreement_document" required--}}
+{{--                                            class="custom-file-input"--}}
+{{--                                            accept=".jpg, .png, .jpeg, .gif, .bmp, .tif, .tiff, .pdf, .doc, .docx|image/*, application/pdf, application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document">--}}
                                     </label>
                                 </div>
 
@@ -256,8 +260,15 @@ $countryCode= strtolower($country?$country->value:'auto');
                             </div>
                         </div>
                     </div>
+                    {{--                            mainul start--}}
+                    <div class=" pt-4 d-flex flex-wrap ">
+                        <label for="termsConditions">
+                            <input type="checkbox" style="width: auto" name="agree_terms_conditions" id="termsConditions"> I agree to the <a href="https://mixmrt.com/terms-and-condition.php" style="text-decoration: none; color: blue" target="_blank">Terms and Conditions</a>.
+                        </label>
+                    </div>
+                    {{--                            mainul ends--}}
                     <div class="text-end">
-                        <button type="submit" class="cmn--btn border-0 outline-0">{{ translate('messages.submit') }}</button>
+                        <button type="submit" class="cmn--btn border-0 outline-0" id="nextBtn">{{ translate('messages.submit') }}</button>
                     </div>
                 </form>
         </div>
@@ -367,4 +378,20 @@ $countryCode= strtolower($country?$country->value:'auto');
         </script>
     @endif
     {{-- recaptcha scripts end --}}
+
+     {{--        mainul starts--}}
+     <script>
+         $(document).on('click', '#nextBtn', function (e) {
+             if ($('#termsConditions').length)
+             {
+
+                 if (!$('#termsConditions').is(':checked'))
+                 {
+                     e.preventDefault();
+                     toastr.error('You must agree with our terms and conditions.');
+                 }
+             }
+         })
+     </script>
+     {{--        mainul ends--}}
 @endpush
