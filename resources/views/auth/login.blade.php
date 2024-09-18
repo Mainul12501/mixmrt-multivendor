@@ -345,28 +345,28 @@ $(document).on('click','.reloadCaptcha', function(){
         });
     });
 </script>
-{{--@if(isset($recaptcha) && $recaptcha['status'] == 1)--}}
-{{--    <script type="text/javascript">--}}
-{{--    "use strict";--}}
-{{--        var onloadCallback = function () {--}}
-{{--            grecaptcha.render('recaptcha_element', {--}}
-{{--                'sitekey': '{{ \App\CentralLogics\Helpers::get_business_settings('recaptcha')['site_key'] }}'--}}
-{{--            });--}}
-{{--        };--}}
-{{--    </script>--}}
-{{--    <script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit" async defer></script>--}}
-{{--    <script>--}}
-{{--        "use strict";--}}
-{{--        $("#form-id").on('submit',function(e) {--}}
-{{--            var response = grecaptcha.getResponse();--}}
+@if(isset($recaptcha) && $recaptcha['status'] == 1)
+    <script type="text/javascript">
+    "use strict";
+        var onloadCallback = function () {
+            grecaptcha.render('recaptcha_element', {
+                'sitekey': '{{ \App\CentralLogics\Helpers::get_business_settings('recaptcha')['site_key'] }}'
+            });
+        };
+    </script>
+    <script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit" async defer></script>
+    <script>
+        "use strict";
+        $("#form-id").on('submit',function(e) {
+            var response = grecaptcha.getResponse();
 
-{{--            if (response.length === 0) {--}}
-{{--                e.preventDefault();--}}
-{{--                toastr.error("{{translate('messages.Please check the recaptcha')}}");--}}
-{{--            }--}}
-{{--        });--}}
-{{--    </script>--}}
-{{--@endif--}}
+            if (response.length === 0) {
+                e.preventDefault();
+                toastr.error("{{translate('messages.Please check the recaptcha')}}");
+            }
+        });
+    </script>
+@endif
 {{-- recaptcha scripts end --}}
 
 
