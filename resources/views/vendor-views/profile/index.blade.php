@@ -235,6 +235,54 @@
                 </div>
                 <!-- End Card -->
 
+
+                <!-- Disbursement Card -->
+                <div id="disbursement" class="card mb-3 mb-lg-5">
+                    <div class="card-header">
+                        <h2 class="card-title h4">
+                            <i class="tio-lock"></i>
+{{--                            <span>{{translate('messages.change_your_password')}}</span>--}}
+                            <span>Select Disbursement Method</span>
+                        </h2>
+                    </div>
+
+                    <!-- Body -->
+                    <div class="card-body">
+                        <!-- Form -->
+                        <form action="{{route('vendor.wallet-method.store-from-profile')}}" method="post">
+                            <div class="modal-body">
+                                @csrf
+                                <div class="">
+                                    <select class="form-control" id="withdraw_method" name="withdraw_method" required>
+                                        <option value="" selected disabled>{{translate('Select_Disburse_Method')}}</option>
+                                        @foreach($withdrawal_methods as $item)
+                                            <option value="{{$item['id']}}" {{ !empty($disbursementWithdrawalMethod) && $disbursementWithdrawalMethod->withdrawal_method_id == $item['id'] ? 'selected' : '' }}>{{$item['method_name']}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="" id="method-filed__div">
+                                </div>
+                                @if(!empty($disbursementWithdrawalMethod))
+                                    <div id="existDataDiv" class="mt-2">
+                                        @forelse(json_decode($disbursementWithdrawalMethod->method_fields, true) as $key=> $item)
+                                            <h6 class="text-capitalize "> {{  translate($key) }}: {{$item}}</h6>
+                                        @empty
+                                            <h6 class="text-capitalize"> {{translate('messages.No_Data_found')}}</h6>
+                                        @endforelse
+                                    </div>
+                                @endif
+                            </div>
+                            <div class="modal-footer pt-0 border-0">
+                                <button type="submit" id="submit_button" disabled class="btn btn--primary">{{translate('messages.Save_changes')}}</button>
+                            </div>
+                        </form>
+                        <!-- End Form -->
+                    </div>
+                    <!-- End Body -->
+                </div>
+                <!-- Disbursement End Card -->
+
+
                 <!-- Sticky Block End Point -->
                 <div id="stickyBlockEndPoint"></div>
             </div>
@@ -245,5 +293,43 @@
 @endsection
 
 @push('script_2')
+    <script>
+        "use strict";
+        $('#withdraw_method').on('change', function () {
+            $('#submit_button').attr("disabled","true");
+            let method_id = this.value;
+
+            // Set header if need any otherwise remove setup part
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $.ajax({
+                url: "{{route('vendor.wallet.method-list')}}" + "?method_id=" + method_id,
+                data: {},
+                processData: false,
+                contentType: false,
+                type: 'get',
+                success: function (response) {
+                    $('#submit_button').removeAttr('disabled');
+                    let method_fields = response.content.method_fields;
+                    $("#method-filed__div").html("");
+                    method_fields.forEach((element, index) => {
+                        $("#method-filed__div").append(`
+                    <div class="form-group mt-2">
+                        <label for="wr_num" class="fz-16 c1 mb-2">${element.input_name.replaceAll('_', ' ').toUpperCase()}</label>
+                        <input type="${element.input_type == 'phone' ? 'number' : element.input_type  }" class="form-control" name="${element.input_name}" placeholder="${element.placeholder}" ${element.is_required === 1 ? 'required' : ''}>
+                    </div>
+                `);
+                    })
+                    $('#existDataDiv').addClass('d-none');
+                },
+                error: function () {
+
+                }
+            });
+        });
+    </script>
     <script src="{{asset('public/assets/admin')}}/js/view-pages/vendor/profile-index.js"></script>
 @endpush

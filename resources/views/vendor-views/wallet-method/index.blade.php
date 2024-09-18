@@ -44,9 +44,11 @@
                     </form>
                 </div>
                 &nbsp;
-                <div class="p--10px">
-                    <a class="btn btn--primary btn-outline-primary w-100" href="javascript:" data-toggle="modal" data-target="#balance-modal">{{translate('messages.add_new_method')}}</a>
-                </div>
+{{--                mainul start--}}
+{{--                <div class="p--10px">--}}
+{{--                    <a class="btn btn--primary btn-outline-primary w-100" href="javascript:" data-toggle="modal" data-target="#balance-modal">{{translate('messages.add_new_method')}}</a>--}}
+{{--                </div>--}}
+{{--                mainul end--}}
             </div>
             <div class="card-body p-0">
                 <div class="table-responsive">
@@ -59,16 +61,18 @@
                         <thead class="thead-light">
                         <tr>
                             <th>{{ translate('messages.sl') }}</th>
+                            <th>{{ translate('messages.store_name') }}</th>
                             <th>{{translate('messages.payment_method_name')}}</th>
                             <th>{{translate('messages.payment_info')}}</th>
                             <th>{{translate('messages.default')}}</th>
-                            <th class="w-100px text-center">{{translate('messages.action')}}</th>
+{{--                            <th class="w-100px text-center">{{translate('messages.action')}}</th>--}}
                         </tr>
                         </thead>
                         <tbody id="set-rows">
                         @foreach($vendor_withdrawal_methods as $k=>$e)
                             <tr>
                                 <th scope="row">{{$k+$vendor_withdrawal_methods->firstItem()}}</th>
+                                <td class="text-capitalize text-break text-hover-primary">{{$e['store_name']}}</td>
                                 <td class="text-capitalize text-break text-hover-primary">{{$e['method_name']}}</td>
                                 <td>
                                     <div class="col-md-8 mt-2">
@@ -82,29 +86,30 @@
                                 <td>
                                     <div class="d-flex">
                                         <div>
-                                            <label class="toggle-switch toggle-switch-sm mr-2" data-toggle="tooltip" data-placement="top" title="{{ translate('messages.make_default_method') }}" for="statusCheckbox{{$e->id}}">
-                                                <input type="checkbox" data-url="{{route('vendor.wallet-method.default',[$e['id'],$e->is_default?0:1])}}" class="toggle-switch-input redirect-url" id="statusCheckbox{{$e->id}}" {{$e->is_default?'checked':''}}>
-                                                <span class="toggle-switch-label">
-                                                <span class="toggle-switch-indicator"></span>
-                                            </span>
-                                            </label>
+{{--                                            <label class="toggle-switch toggle-switch-sm mr-2" data-toggle="tooltip" data-placement="top" title="{{ translate('messages.make_default_method') }}" for="statusCheckbox{{$e->id}}">--}}
+{{--                                                <input type="checkbox" readonly data-url="{{route('vendor.wallet-method.default',[$e['id'],$e->is_default?0:1])}}" class="toggle-switch-input redirect-url" id="statusCheckbox{{$e->id}}" {{$e->is_default?'checked':''}}>--}}
+{{--                                                <span class="toggle-switch-label">--}}
+{{--                                                <span class="toggle-switch-indicator"></span>--}}
+{{--                                            </span>--}}
+{{--                                            </label>--}}
+                                            <span>{{$e->is_default?'Yes':'No'}}</span>
                                         </div>
                                     </div>
                                 </td>
-                                <td>
+{{--                                <td>--}}
 
-                                    @if (auth('vendor_employee')->id()  != $e['id'])
-                                        <div class="btn--container justify-content-center">
-                                            <a class="btn action-btn btn--danger btn-outline-danger" href="javascript:"
-                                               data-id="employee-{{$e['id']}}" data-message="{{translate('messages.Want_to_delete_this_method_info')}}" title="{{translate('messages.delete_method')}}"><i class="tio-delete-outlined"></i>
-                                            </a>
-                                            <form action="{{route('vendor.wallet-method.delete',[$e['id']])}}"
-                                                  method="post" id="employee-{{$e['id']}}">
-                                                @csrf @method('delete')
-                                            </form>
-                                        </div>
-                                    @endif
-                                </td>
+{{--                                    @if (auth('vendor_employee')->id()  != $e['id'])--}}
+{{--                                        <div class="btn--container justify-content-center">--}}
+{{--                                            <a class="btn action-btn btn--danger btn-outline-danger" href="javascript:"--}}
+{{--                                               data-id="employee-{{$e['id']}}" data-message="{{translate('messages.Want_to_delete_this_method_info')}}" title="{{translate('messages.delete_method')}}"><i class="tio-delete-outlined"></i>--}}
+{{--                                            </a>--}}
+{{--                                            <form action="{{route('vendor.wallet-method.delete',[$e['id']])}}"--}}
+{{--                                                  method="post" id="employee-{{$e['id']}}">--}}
+{{--                                                @csrf @method('delete')--}}
+{{--                                            </form>--}}
+{{--                                        </div>--}}
+{{--                                    @endif--}}
+{{--                                </td>--}}
                             </tr>
                         @endforeach
                         </tbody>
@@ -154,8 +159,7 @@
                                     @endforeach
                                 </select>
                             </div>
-                            <div class="" id="method-filed__div">
-                            </div>
+                            <div class="" id="method-filed__div"></div>
                         </div>
                         <div class="modal-footer pt-0 border-0">
                             <button type="button" class="btn btn--reset" data-dismiss="modal">{{translate('messages.cancel')}}</button>

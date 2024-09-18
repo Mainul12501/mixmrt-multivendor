@@ -198,6 +198,7 @@ Route::group(['namespace' => 'Vendor', 'as' => 'vendor.'], function () {
         Route::group(['prefix' => 'withdraw-method', 'as' => 'wallet-method.', 'middleware' => ['module:wallet' ,'subscription:wallet' ]], function () {
             Route::get('/', 'WalletMethodController@index')->name('index');
             Route::post('store/', 'WalletMethodController@store')->name('store');
+            Route::post('store-from-profile/', 'WalletMethodController@storeFromProfile')->name('store-from-profile');
             Route::get('default/{id}/{default}', 'WalletMethodController@default')->name('default');
             Route::delete('delete/{id}', 'WalletMethodController@delete')->name('delete');
         });

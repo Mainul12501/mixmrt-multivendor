@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Vendor;
 
 use App\Models\DisbursementWithdrawalMethod;
 use App\CentralLogics\Helpers;
+use App\Models\Store;
 use App\Models\WithdrawalMethod;
 use App\Http\Controllers\Controller;
 use Brian2694\Toastr\Facades\Toastr;
@@ -60,6 +61,42 @@ class WalletMethodController extends Controller
         return redirect()->back();
     }
 
+//    mainul start
+    public function storeFromProfile(Request $request)
+    {
+        $method = WithdrawalMethod::find($request['withdraw_method']);
+        $fields = array_column($method->method_fields, 'input_name');
+        $values = $request->all();
+
+        $method_data = [];
+        foreach ($fields as $field) {
+            if(key_exists($field, $values)) {
+                $method_data[$field] = $values[$field];
+            }
+        }
+
+        $data = [
+            'store_id' => Helpers::get_store_id(),
+            'store_name' => Store::find(Helpers::get_store_id())->name,
+            'withdrawal_method_id' => $method['id'],
+            'method_name' => $method['method_name'],
+            'method_fields' => json_encode($method_data),
+            'is_default' => 1,
+            'created_at' => now(),
+            'updated_at' => now()
+        ];
+
+        $existDisbursementWithdrawalMethod = DisbursementWithdrawalMethod::where(['store_id' => Helpers::get_store_id()])->first();
+        if (!empty($existDisbursementWithdrawalMethod))
+        {
+            $existDisbursementWithdrawalMethod->update($data);
+        } else {
+            DB::table('disbursement_withdrawal_methods')->insert($data);
+        }
+        Toastr::success(translate('Disbursement_method_stored.'));
+        return redirect()->back();
+    }
+//    mainul ends
     public function default(Request $request)
     {
         $method = DisbursementWithdrawalMethod::find($request->id);

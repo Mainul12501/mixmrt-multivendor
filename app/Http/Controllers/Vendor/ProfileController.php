@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Vendor;
 
 use App\CentralLogics\Helpers;
 use App\Http\Controllers\Controller;
+use App\Models\DisbursementWithdrawalMethod;
 use App\Models\Vendor;
+use App\Models\WithdrawalMethod;
 use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rules\Password;
@@ -13,9 +15,12 @@ class ProfileController extends Controller
 {
     public function view()
     {
-        return view('vendor-views.profile.index');
+        return view('vendor-views.profile.index', [
+            'withdrawal_methods' => WithdrawalMethod::ofStatus(1)->get(),
+            'disbursementWithdrawalMethod' => DisbursementWithdrawalMethod::where('store_id', Helpers::get_store_id())->first()
+        ]);
     }
-    
+
     public function bank_view()
     {
         $data = Helpers::get_vendor_data();

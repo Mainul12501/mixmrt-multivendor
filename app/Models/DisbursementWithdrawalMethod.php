@@ -14,4 +14,6 @@ class DisbursementWithdrawalMethod extends Model
         'store_id' => 'integer',
         'is_default'=>'boolean',
     ];
+
+    protected $guarded = []; //mainul
 }
