@@ -273,7 +273,7 @@
                                 @endif
                             </div>
                             <div class="modal-footer pt-0 border-0">
-                                <button type="submit" id="submit_button" disabled class="btn btn--primary">{{translate('messages.Save_changes')}}</button>
+                                <button type="submit" id="submit_button" disabled class="btn btn--primary">{{!empty($disbursementWithdrawalMethod) ? translate('messages.Request Changes') : translate('messages.Save_changes')}}</button>
                             </div>
                         </form>
                         <!-- End Form -->

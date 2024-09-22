@@ -2,9 +2,13 @@
 
 use App\Http\Controllers\Admin\DeliveryMan\DeliveryManController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Vendor\WalletMethodController;
 
 
 Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
+
+    Route::get('accept/{id}', [WalletMethodController::class, 'accept'])->name('accept-dis-wid-met');
+    Route::delete('delete-row/{id}', [WalletMethodController::class, 'delete'])->name('delete-dis-wid-met');
 
     Route::group(['middleware' => ['admin', 'current-module']], function () {
         Route::get('get-all-stores', 'VendorController@get_all_stores')->name('get_all_stores');
@@ -356,14 +360,14 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
         //     Route::group(['prefix' => 'offline_payment', 'as' => 'offline_payment.'], function () {
         //         Route::get('list/{status}', 'OfflinePaymentMethodController@store_offline_verification_list')->name('store_offline_verification_list');
         //         Route::get('verifications', 'OfflinePaymentMethodController@offline_payment_verification')->name('verifications');
-           
+
         //     });
         // });
         // Route::group(['prefix' => 'delivery_man', 'as' => 'delivery_man.','middleware' => ['module:withdraw_list']], function () {
         //     Route::group(['prefix' => 'offline_payment', 'as' => 'offline_payment.'], function () {
         //         Route::get('list/{status}', 'OfflinePaymentMethodController@delivery_man_offline_verification_list')->name('delivery_man_offline_verification_list');
         //         Route::get('verifications', 'OfflinePaymentMethodController@delivery_man_offline_payment_verification')->name('verifications');
-           
+
         //     });
         // });
         // Refund
@@ -815,20 +819,21 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
                 Route::post('status-update', 'WithdrawalMethodController@status_update')->name('status-update');
                 Route::post('default-status-update', 'WithdrawalMethodController@default_status_update')->name('default-status-update');
                 Route::get('get-method-info', 'WithdrawalMethodController@getMethodInfo')->name('getMethodInfo');
+
             });
             Route::group(['prefix' => 'store', 'as' => 'store.','middleware' => ['module:withdraw_list']], function () {
                 Route::group(['prefix' => 'offline_payment', 'as' => 'offline_payment.'], function () {
                     Route::get('list/{status}', 'OfflinePaymentMethodController@store_offline_verification_list')->name('store_offline_verification_list');
                     Route::get('company-list/{status}', 'OfflinePaymentMethodController@company_offline_verification_list')->name('company_offline_verification_list');
                     Route::get('verifications', 'OfflinePaymentMethodController@offline_payment_verification')->name('verifications');
-               
+
                 });
             });
             Route::group(['prefix' => 'delivery_man', 'as' => 'delivery_man.','middleware' => ['module:withdraw_list']], function () {
                 Route::group(['prefix' => 'offline_payment', 'as' => 'offline_payment.'], function () {
                     Route::get('list/{status}', 'OfflinePaymentMethodController@delivery_man_offline_verification_list')->name('delivery_man_offline_verification_list');
                     Route::get('verifications', 'OfflinePaymentMethodController@delivery_man_offline_payment_verification')->name('verifications');
-               
+
                 });
             });
 

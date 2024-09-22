@@ -28,9 +28,9 @@
                             <svg width="20" x="0" y="0" viewBox="0 0 68 68" class="store-svg-logo" xml:space="preserve" ><g><g><path d="m62.99 57.53h-1.17v-29.22c-1.09-.47-2.02-1.25-2.67-2.23-1.08 1.63-2.93 2.71-5.03 2.71s-3.95-1.08-5.03-2.71c-1.08 1.63-2.93 2.71-5.03 2.71s-3.95-1.08-5.03-2.71c-1.08 1.63-2.93 2.71-5.03 2.71s-3.95-1.08-5.03-2.71c-1.08 1.63-2.92 2.71-5.02 2.71-2.11 0-3.97-1.09-5.05-2.74-1.09 1.61-2.92 2.67-5.01 2.67-2.1 0-3.95-1.08-5.03-2.71-.65.98-1.58 1.77-2.68 2.23v29.29h-1.17c-1.21 0-2.19.98-2.19 2.19v4.16h62.36v-4.16c0-1.21-.98-2.19-2.19-2.19zm-33.55 0h-16.45v-20.29c0-1.36 1.1-2.47 2.47-2.47h11.51c1.36 0 2.47 1.11 2.47 2.47zm24.43-9.54c0 .88-.71 1.59-1.59 1.59h-13.41c-.88 0-1.6-.71-1.6-1.59v-12.13c0-.88.72-1.59 1.6-1.59h13.41c.88 0 1.59.71 1.59 1.59z" fill="#000000" data-original="#000000"></path><path d="m59.86 19.99h7.77l-3.07-6.5c-.33-.7-1.03-1.15-1.81-1.15h-5.46z" fill="#000000" data-original="#000000"></path><path d="m10.72 12.27h-5.46c-.77 0-1.48.45-1.81 1.15l-3.07 6.5h7.76z" fill="#000000" data-original="#000000"></path><path d="m60.15 21.99v.77c0 2.22 1.8 4.03 4.03 4.03 2.22 0 4.02-1.81 4.02-4.03v-.77z" fill="#000000" data-original="#000000"></path><path d="m54.12 26.79c2.22 0 4.03-1.81 4.03-4.03v-.77h-8.06v.77c0 2.22 1.81 4.03 4.03 4.03z" fill="#000000" data-original="#000000"></path><path d="m46.71 14.26-.39-1.92h-6.87l.52 7.65h7.9z" fill="#000000" data-original="#000000"></path><path d="m9.86 22.69c0 2.22 1.81 4.03 4.03 4.03s4.03-1.81 4.03-4.03v-.7h-8.06z" fill="#000000" data-original="#000000"></path><path d="m55.18 12.34h-6.82l1.16 5.73.39 1.92h7.84z" fill="#000000" data-original="#000000"></path><path d="m19.92 22.76c0 2.22 1.8 4.03 4.03 4.03 2.22 0 4.02-1.81 4.02-4.03v-.77h-8.05z" fill="#000000" data-original="#000000"></path><path d="m7.86 22.69v-.77h-8.06v.77c0 2.22 1.81 4.03 4.03 4.03s4.03-1.81 4.03-4.03z" fill="#000000" data-original="#000000"></path><path d="m19.64 12.34h-6.81l-2.55 7.58h7.83z" fill="#000000" data-original="#000000"></path><path d="m30.56 12.34-.52 7.65h7.92l-.51-7.65z" fill="#000000" data-original="#000000"></path><path d="m44.06 26.79c2.22 0 4.03-1.81 4.03-4.03v-.77h-8.06v.77c0 2.22 1.81 4.03 4.03 4.03z" fill="#000000" data-original="#000000"></path><path d="m28.55 12.34h-6.86l-1.55 7.65h7.9z" fill="#000000" data-original="#000000"></path><path d="m29.97 22.76c0 2.22 1.81 4.03 4.03 4.03s4.03-1.81 4.03-4.03v-.77h-8.06z" fill="#000000" data-original="#000000"></path><path d="m13.49 10.34h48.33v-2.03c0-2.31-1.87-4.19-4.18-4.19h-47.27c-2.31 0-4.19 1.88-4.19 4.19v1.96h7.33z" fill="#000000" data-original="#000000"></path></g></g></svg>  {{ translate('messages.Courier_Company_info') }}</h5>
 
                             @php($courier_company_agereement = \App\Models\BusinessSetting::where('key', 'courier_company_agereement')->first())
-                            @if ($courier_company_agereement)
-                            <a href="{{route('restaurant.download-courier-company-agreement')}}" class="text-center mr-3 mb-4 cmn--btn border-0 outline-0"> <strong>{{ translate('messages.download_Agreement') }} </strong> </a>
-                            @endif
+{{--                            @if ($courier_company_agereement)--}}
+{{--                            <a href="{{route('restaurant.download-courier-company-agreement')}}" class="text-center mr-3 mb-4 cmn--btn border-0 outline-0"> <strong>{{ translate('messages.download_Agreement') }} </strong> </a>--}}
+{{--                            @endif--}}
 
                     </div>
                     <div class="card-body p-4">
@@ -266,7 +266,7 @@
 
                                         <input type="file" name="tax_document" id="tax_document" required
                                             class="custom-file-input"
-                                            accept=".jpg, .png, .jpeg">
+                                            accept=".jpg, .png, .jpeg, .gif, .bmp, .tif, .tiff|image/*">
                                     </label>
                                 </div>
                                 <div class="col-3 card p-5 mx-5">
@@ -284,7 +284,7 @@
 
                                         <input type="file" name="registration_document" id="registration_document" required
                                             class="custom-file-input"
-                                            accept=".jpg, .png, .jpeg">
+                                            accept=".jpg, .png, .jpeg, .gif, .bmp, .tif, .tiff|image/*">
                                     </label>
                                 </div>
                                 <div class="col-4 card p-5 mx-5">
@@ -294,13 +294,13 @@
                                         </label>
 
                                         <div class="text-center">
-                                            <a href="{{route('deliveryman.download-delivery-man-agreement')}}" download="download">
+                                            <a href="{{route('show-agreement', ['key' => 'courier'])}}" target="_blank">
                                                 <img class="img--110 onerror-image" id="agreement_document_view"
                                                      data-onerror-image="{{ asset('public/assets/admin/img/important-file.png') }}"
                                                      src="{{ asset('public/assets/admin/img/important-file.png') }}"
                                                      alt="agreement_document" />
                                                 <br>
-                                                <span class="text-center" style="text-decoration: none;">Download</span>
+{{--                                                <span class="text-center" style="text-decoration: none;">Download</span>--}}
                                             </a>
                                         </div>
 
@@ -455,8 +455,14 @@ data-original-title="{{ translate('messages.select_zone_for_map') }}"><img
                 </div>
                     {{--                            mainul start--}}
                     <div class=" pt-4 ps-4 d-flex flex-wrap ">
-                        <label for="termsConditions">
+                        <label for="termsConditions" class="me-3">
                             <input type="checkbox" style="width: auto" name="agree_terms_conditions" id="termsConditions"> I agree to the <a href="https://mixmrt.com/terms-and-condition.php" style="text-decoration: none; color: blue" target="_blank">Terms and Conditions</a>.
+                        </label>
+                        <label for="privacyPolicy" class="me-3">
+                            <input type="checkbox" style="width: auto" name="agree_privacy_policy" id="privacyPolicy"> I agree to the <a href="https://mixmrt.com/privacy-policy.php" style="text-decoration: none; color: blue" target="_blank">Privacy Policy</a>.
+                        </label>
+                        <label for="agreementDocs" class="me-3">
+                            <input type="checkbox" style="width: auto" name="agree_agreement_docs" id="agreementDocs"> I agree to the <a href="https://mixmrt.com/agreement-documents.php" target="_blank" style="text-decoration: none; color: blue">Agreement Documents</a>.
                         </label>
                     </div>
                     {{--                            mainul ends--}}
@@ -664,6 +670,24 @@ data-original-title="{{ translate('messages.select_zone_for_map') }}"><img
                     {
                         e.preventDefault();
                         toastr.error('You must agree with our terms and conditions.');
+                    }
+                }
+                if ($('#privacyPolicy').length)
+                {
+
+                    if (!$('#privacyPolicy').is(':checked'))
+                    {
+                        e.preventDefault();
+                        toastr.error('You must agree with our Privacy Policy.');
+                    }
+                }
+                if ($('#agreementDocs').length)
+                {
+
+                    if (!$('#agreementDocs').is(':checked'))
+                    {
+                        e.preventDefault();
+                        toastr.error('You must agree with our Agreement Documents.');
                     }
                 }
             })

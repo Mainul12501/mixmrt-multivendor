@@ -27,6 +27,32 @@ use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Storage;
 class VendorController extends Controller
 {
+    public function showAgreement($key)
+    {
+        if ($key == 'store')
+        {
+            $agreement = \App\Models\BusinessSetting::where('key', 'store_agreement')->first();
+        } elseif ($key == 'dm')
+        {
+            $agreement = \App\Models\BusinessSetting::where('key', 'dm_agreement')->first();
+        } elseif ($key == 'courier')
+        {
+            $agreement = \App\Models\BusinessSetting::where('key', 'dm_agreement')->first();
+        }
+        return view('vendor.agreement', ['agreement' => $agreement ?? '']);
+        if (str()->contains(url()->current(), '/api/'))
+        {
+            if (empty($agreement))
+            {
+                return response()->json(['status' => 'failed', 'message' => 'Agreement data not found'], 404);
+            } else {
+//                $agreement->value = strip_tags($agreement->value);
+                return response()->json(['status' => 'success', 'agreement' => $agreement ?? ''], 200);
+            }
+        } else {
+            return view('vendor.agreement', ['agreement' => $agreement ?? '']);
+        }
+    }
     public function create()
     {
         $status = BusinessSetting::where('key', 'toggle_store_registration')->first();
@@ -91,9 +117,9 @@ class VendorController extends Controller
             'delivery_time_type'=>'required',
             'tax_id'=>'required|unique:stores', // mainul
             'register_no'=>'required',
-            'tax_document'=>'required|file|max:5120|mimes:jpg,png,jpeg', // mainul
-            'registration_document'=>'required|file|max:5120|mimes:jpg,png,jpeg', // mainul
-            'agreement_document'=>'file|max:5120|mimes:jpg,png,jpeg', // mainul
+            'tax_document'=>'required|file|max:5120|mimes:jpg,png,jpeg,gif,bmp,tif,tiff', // mainul
+            'registration_document'=>'required|file|max:5120|mimes:jpg,png,jpeg,gif,bmp,tif,tiff', // mainul
+            'agreement_document'=>'file|max:5120|mimes:jpg,png,jpeg,gif,bmp,tif,tiff', // mainul
 //            'agreement_document'=>'required|file|max:5120|mimes:jpg,png,jpeg,gif,bmp,tif,tiff,pdf,doc,docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document',
         ]);
         if ($validator->fails()) {
@@ -431,9 +457,9 @@ public function final_step(Request $request){
             // 'tax' => 'required',
             'tax_id'=>'required|unique:vendors',
             'register_no'=>'required',
-            'tax_document'=>'required|file|max:5120|mimes:jpg,png,jpeg',
-            'registration_document'=>'required|file|max:5120|mimes:jpg,png,jpeg',
-            'agreement_document'=>'required|file|max:5120|mimes:jpg,png,jpeg',
+            'tax_document'=>'required|file|max:5120|mimes:jpg,png,jpeg,gif,bmp,tif,tiff',
+            'registration_document'=>'required|file|max:5120|mimes:jpg,png,jpeg,gif,bmp,tif,tiff',
+//            'agreement_document'=>'file|max:5120|mimes:jpg,png,jpeg,gif,bmp,tif,tiff',
         ], [
             'f_name.required' => translate('messages.first_name_is_required'),
             'name.0.required'=>translate('default_name_is_required'),

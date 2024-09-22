@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\DisbursementWithdrawalMethod;
 use App\Models\Item;
 use App\Models\Zone;
 use App\Models\AddOn;
@@ -531,7 +532,8 @@ class VendorController extends Controller
         {
             return view('admin-views.vendor.view.review', compact('store', 'sub_tab'));
 
-        } else if ($tab == 'conversations') {
+        } else if($tab == 'conversations')
+        {
             $user = UserInfo::where(['vendor_id' => $store->vendor->id])->first();
             if ($user) {
                 $conversations = Conversation::with(['sender', 'receiver', 'last_message'])->WhereUser($user->id)
@@ -571,11 +573,9 @@ class VendorController extends Controller
                 $index= 2;
             }
             return view('admin-views.vendor.view.subscription',compact('store','packages','business_name','admin_commission','index'));
-
-
-
         }
-        return view('admin-views.vendor.view.index', compact('store', 'wallet'));
+        $disbursementWithdrawalMethods = DisbursementWithdrawalMethod::where(['store_id' => $store_id])->latest()->get();
+        return view('admin-views.vendor.view.index', compact('store', 'wallet', 'disbursementWithdrawalMethods'));
     }
 
     public function disbursement_export(Request $request,$id,$type)
@@ -2047,7 +2047,7 @@ class VendorController extends Controller
         // $store->delivery_time = $request->minimum_delivery_time .'-'. $request->maximum_delivery_time.' '.$request->delivery_time_type;
         $store->tax_id =  $request->tax_id;
         $store->register_no = $request->register_no;
-       
+
         $tax_document_extension = $request->file('tax_document')->extension();
         $store->tax_document = Helpers::upload('store/', $tax_document_extension, $request->file('tax_document'));
 
@@ -2056,7 +2056,7 @@ class VendorController extends Controller
 
         $agreement_document_extension = $request->file('agreement_document')->extension();
         $store->agreement_document = Helpers::upload('store/', $agreement_document_extension, $request->file('agreement_document'));
-        
+
         $store->status=1;
         $store->store_type="company";
         $store->item_section=0;

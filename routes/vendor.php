@@ -201,6 +201,7 @@ Route::group(['namespace' => 'Vendor', 'as' => 'vendor.'], function () {
             Route::post('store-from-profile/', 'WalletMethodController@storeFromProfile')->name('store-from-profile');
             Route::get('default/{id}/{default}', 'WalletMethodController@default')->name('default');
             Route::delete('delete/{id}', 'WalletMethodController@delete')->name('delete');
+
         });
 
         Route::group(['prefix' => 'coupon', 'as' => 'coupon.', 'middleware' => ['module:coupon','subscription:coupon']], function () {

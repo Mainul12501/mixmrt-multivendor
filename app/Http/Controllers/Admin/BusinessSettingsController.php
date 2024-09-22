@@ -127,22 +127,28 @@ class BusinessSettingsController extends Controller
             'value' => $request['dm_picture_upload_status']
         ]);
 
+//        dm agreement start --- mainul
+        DB::table('business_settings')->updateOrInsert(['key' => 'dm_agreement'], [
+            'value' => $request['dm_agreement']
+        ]);
 
-        if($request->file('dm_agreement')){
-            $license_extension = $request->file('dm_agreement')->extension();
-            $dm_agreement = \App\Models\BusinessSetting::where('key', 'dm_agreement')->first();
-            if(isset($dm_agreement->value)){
-            $old_file_name=$dm_agreement->value;
-                DB::table('business_settings')->updateOrInsert(['key' => 'dm_agreement'], [
-                'value' => Helpers::update('agereement/', $old_file_name,$license_extension, $request->file('dm_agreement'))
-                ]);
-              }
-            else{
-                DB::table('business_settings')->updateOrInsert(['key' => 'dm_agreement'], [
-                    'value' => Helpers::upload('agereement/',$license_extension, $request->file('dm_agreement'))
-                ]);
-               }
-            }
+
+//        if($request->file('dm_agreement')){
+//            $license_extension = $request->file('dm_agreement')->extension();
+//            $dm_agreement = \App\Models\BusinessSetting::where('key', 'dm_agreement')->first();
+//            if(isset($dm_agreement->value)){
+//            $old_file_name=$dm_agreement->value;
+//                DB::table('business_settings')->updateOrInsert(['key' => 'dm_agreement'], [
+//                'value' => Helpers::update('agereement/', $old_file_name,$license_extension, $request->file('dm_agreement'))
+//                ]);
+//              }
+//            else{
+//                DB::table('business_settings')->updateOrInsert(['key' => 'dm_agreement'], [
+//                    'value' => Helpers::upload('agereement/',$license_extension, $request->file('dm_agreement'))
+//                ]);
+//               }
+//            }
+        //        dm agreement ends --- mainul
         Toastr::success(translate('messages.successfully_updated_to_changes_restart_app'));
         return back();
     }
@@ -170,7 +176,6 @@ class BusinessSettingsController extends Controller
 
     public function update_store(Request $request)
     {
-
         if ($request['product_approval'] == null){
             $this->product_approval_all();
         }
@@ -227,23 +232,29 @@ class BusinessSettingsController extends Controller
             'value' => $request['product_gallery']
         ]);
 
+//        update store agreement start --- mainul
+        DB::table('business_settings')->updateOrInsert(['key' => 'store_agreement'], [
+            'value' => $request['store_agreement']
+        ]);
 
-        if($request->file('store_agreement')){
-            $license_extension = $request->file('store_agreement')->extension();
-            $store_agreement = \App\Models\BusinessSetting::where('key', 'store_agreement')->first();
 
-            if(isset($store_agreement->value)){
-            $old_file_name=$store_agreement->value;
-            DB::table('business_settings')->updateOrInsert(['key' => 'store_agreement'], [
-                'value' => Helpers::update('agereement/', $old_file_name,$license_extension, $request->file('store_agreement'))
-            ]);
-            }
-            else{
-                DB::table('business_settings')->updateOrInsert(['key' => 'store_agreement'], [
-                    'value' => Helpers::upload('agereement/',$license_extension, $request->file('store_agreement'))
-                ]);
-            }
-        }
+//        if($request->file('store_agreement')){
+//            $license_extension = $request->file('store_agreement')->extension();
+//            $store_agreement = \App\Models\BusinessSetting::where('key', 'store_agreement')->first();
+//
+//            if(isset($store_agreement->value)){
+//            $old_file_name=$store_agreement->value;
+//            DB::table('business_settings')->updateOrInsert(['key' => 'store_agreement'], [
+//                'value' => Helpers::update('agereement/', $old_file_name,$license_extension, $request->file('store_agreement'))
+//            ]);
+//            }
+//            else{
+//                DB::table('business_settings')->updateOrInsert(['key' => 'store_agreement'], [
+//                    'value' => Helpers::upload('agereement/',$license_extension, $request->file('store_agreement'))
+//                ]);
+//            }
+//        }
+        //        update store agreement ends --- mainul
 
         if($request->file('courier_company_agereement')){
             $license_extension = $request->file('courier_company_agereement')->extension();

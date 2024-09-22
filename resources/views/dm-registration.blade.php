@@ -43,9 +43,9 @@ $countryCode= strtolower($country?$country->value:'auto');
                             </g>
                             </svg>{{ translate('messages.deliveryman_info') }}</h5>
                             @php($dm_agreement = \App\Models\BusinessSetting::where('key', 'dm_agreement')->first())
-                            @if ($dm_agreement)
-                            <a href="{{route('deliveryman.download-delivery-man-agreement')}}" class="text-center mr-3 mb-4 cmn--btn border-0 outline-0"> <strong>{{ translate('messages.download_Agreement') }} </strong> </a>
-                            @endif
+{{--                            @if ($dm_agreement)--}}
+{{--                            <a href="{{route('deliveryman.download-delivery-man-agreement')}}" class="text-center mr-3 mb-4 cmn--btn border-0 outline-0"> <strong>{{ translate('messages.download_Agreement') }} </strong> </a>--}}
+{{--                            @endif--}}
 
                         </div>
                         <div class="card-body">
@@ -156,13 +156,13 @@ $countryCode= strtolower($country?$country->value:'auto');
                                         </label>
 
                                         <div class="text-center">
-                                            <a href="{{route('deliveryman.download-delivery-man-agreement')}}" download="download">
+                                            <a href="{{route('show-agreement', ['key' => 'dm'])}}" target="_blank">
                                                 <img class="img--110 onerror-image" id="agreement_document_view"
                                                      data-onerror-image="{{ asset('public/assets/admin/img/important-file.png') }}"
                                                      src="{{ asset('public/assets/admin/img/important-file.png') }}"
                                                      alt="registration_document" />
                                                 <br>
-                                                <span class="text-center" style="text-decoration: none;">Download</span>
+{{--                                                <span class="text-center" style="text-decoration: none;">Download</span>--}}
                                             </a>
                                         </div>
 
@@ -262,8 +262,14 @@ $countryCode= strtolower($country?$country->value:'auto');
                     </div>
                     {{--                            mainul start--}}
                     <div class=" pt-4 d-flex flex-wrap ">
-                        <label for="termsConditions">
+                        <label for="termsConditions" class="me-3">
                             <input type="checkbox" style="width: auto" name="agree_terms_conditions" id="termsConditions"> I agree to the <a href="https://mixmrt.com/terms-and-condition.php" style="text-decoration: none; color: blue" target="_blank">Terms and Conditions</a>.
+                        </label>
+                        <label for="privacyPolicy" class="me-3">
+                            <input type="checkbox" style="width: auto" name="agree_privacy_policy" id="privacyPolicy"> I agree to the <a href="https://mixmrt.com/privacy-policy.php" style="text-decoration: none; color: blue" target="_blank">Privacy Policy</a>.
+                        </label>
+                        <label for="agreementDocs" class="me-3">
+                            <input type="checkbox" style="width: auto" name="agree_agreement_docs" id="agreementDocs"> I agree to the <a href="https://mixmrt.com/agreement-documents.php" target="_blank" style="text-decoration: none; color: blue">Agreement Documents</a>.
                         </label>
                     </div>
                     {{--                            mainul ends--}}
@@ -272,7 +278,6 @@ $countryCode= strtolower($country?$country->value:'auto');
                     </div>
                 </form>
         </div>
-
     </section>
 
 @endsection
@@ -389,6 +394,24 @@ $countryCode= strtolower($country?$country->value:'auto');
                  {
                      e.preventDefault();
                      toastr.error('You must agree with our terms and conditions.');
+                 }
+             }
+             if ($('#privacyPolicy').length)
+             {
+
+                 if (!$('#privacyPolicy').is(':checked'))
+                 {
+                     e.preventDefault();
+                     toastr.error('You must agree with our Privacy Policy.');
+                 }
+             }
+             if ($('#agreementDocs').length)
+             {
+
+                 if (!$('#agreementDocs').is(':checked'))
+                 {
+                     e.preventDefault();
+                     toastr.error('You must agree with our Agreement Documents.');
                  }
              }
          })

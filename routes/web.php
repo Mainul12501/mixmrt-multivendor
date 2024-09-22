@@ -402,7 +402,7 @@ Route::group(['prefix' => 'company', 'as' => 'company.'], function () {
     Route::get('apply', 'VendorController@company_create')->name('create');
     Route::post('apply', 'VendorController@company_store')->name('store');
 
-   
+
 });
 
 //Deliveryman Registration
@@ -411,3 +411,5 @@ Route::group(['prefix' => 'deliveryman', 'as' => 'deliveryman.'], function () {
     Route::post('apply', 'DeliveryManController@store')->name('store');
     Route::get('download-delivery-man-agreement', 'DeliveryManController@download_dm_agereement')->name('download-delivery-man-agreement');
 });
+
+Route::get('show-agreement/{key}', 'VendorController@showAgreement')->name('show-agreement');

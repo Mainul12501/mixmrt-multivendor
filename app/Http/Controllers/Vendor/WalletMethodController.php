@@ -74,26 +74,34 @@ class WalletMethodController extends Controller
                 $method_data[$field] = $values[$field];
             }
         }
-
+        $existDisbursementWithdrawalMethod = DisbursementWithdrawalMethod::where(['store_id' => Helpers::get_store_id(), 'is_default' => 1])->first();
+        $defaultStatus = 1;
+        $pendingStatus = 0;
+        if (!empty($existDisbursementWithdrawalMethod)) {
+            $defaultStatus = 0;
+            $pendingStatus = 1;
+        }
         $data = [
             'store_id' => Helpers::get_store_id(),
             'store_name' => Store::find(Helpers::get_store_id())->name,
             'withdrawal_method_id' => $method['id'],
             'method_name' => $method['method_name'],
             'method_fields' => json_encode($method_data),
-            'is_default' => 1,
+            'is_default' => $defaultStatus,
+            'pending_status' => $pendingStatus,
             'created_at' => now(),
             'updated_at' => now()
         ];
-
-        $existDisbursementWithdrawalMethod = DisbursementWithdrawalMethod::where(['store_id' => Helpers::get_store_id()])->first();
-        if (!empty($existDisbursementWithdrawalMethod))
+        $totalWMC = DisbursementWithdrawalMethod::where(['store_id' => Helpers::get_store_id()])->get()->count() ?? 0;
+        if ( $totalWMC>= 2)
         {
-            $existDisbursementWithdrawalMethod->update($data);
+            DisbursementWithdrawalMethod::where(['store_id' => Helpers::get_store_id(), 'pending_status' => 1])->first()->update($data);
+            Toastr::success(translate('Disbursement_method_request_sent.'));
         } else {
             DB::table('disbursement_withdrawal_methods')->insert($data);
+            Toastr::success(translate('Disbursement_method_stored.'));
         }
-        Toastr::success(translate('Disbursement_method_stored.'));
+
         return redirect()->back();
     }
 //    mainul ends
@@ -112,6 +120,16 @@ class WalletMethodController extends Controller
         $method = DisbursementWithdrawalMethod::find($request->id);
         $method->delete();
         Toastr::success(translate('messages.method_deleted_successfully'));
+        return back();
+    }
+    public function accept(Request $request)
+    {
+        $method = DisbursementWithdrawalMethod::find($request->id);
+        DisbursementWithdrawalMethod::where(['store_id'=>$method->store_id, 'is_default' => 1])->first()->delete();
+        $method->pending_status = 0;
+        $method->is_default = 1;
+        $method->save();
+        Toastr::success(translate('messages.Request accepted Successfully'));
         return back();
     }
 

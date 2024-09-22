@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::table('disbursement_withdrawal_methods', function (Blueprint $table) {
             Schema::table('disbursement_withdrawal_methods', function (Blueprint $table) {
                 $table->text('store_name')->nullable();
+                $table->tinyInteger('pending_status')->default(1)->nullable();
             });
         });
     }

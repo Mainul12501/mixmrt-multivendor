@@ -42,9 +42,9 @@
                             {{ translate('messages.store_info') }}
                         </h5>
                         @php($store_agreement = \App\Models\BusinessSetting::where('key', 'store_agreement')->first())
-                        @if ($store_agreement)
-                        <a href="{{route('restaurant.download-store-agreement')}}" class="text-center  cmn--btn border-0 outline-0"> <strong>{{ translate('messages.download_Agreement') }} </strong> </a>
-                        @endif
+{{--                        @if ($store_agreement)--}}
+{{--                        <a href="{{route('restaurant.download-store-agreement')}}" class="text-center  cmn--btn border-0 outline-0"> <strong>{{ translate('messages.download_Agreement') }} </strong> </a>--}}
+{{--                        @endif--}}
                     </div>
                     <div class="card-body p-4">
                         @if($language)
@@ -325,7 +325,7 @@
 
                                                 <input type="file" name="tax_document" id="tax_document" required
                                                     class="custom-file-input"
-                                                    accept=".jpg, .png, .jpeg"> <!--mainul-->
+                                                    accept=".jpg, .png, .jpeg, .gif, .bmp, .tif, .tiff|image/*"> <!--mainul-->
                                             </label>
                                         </div>
                                         <div class="col-3 card p-5 mx-5">
@@ -343,7 +343,7 @@
 
                                                 <input type="file" name="registration_document" id="registration_document" required
                                                     class="custom-file-input"
-                                                    accept=".jpg, .png, .jpeg"> {{--mainul--}}
+                                                    accept=".jpg, .png, .jpeg, .gif, .bmp, .tif, .tiff|image/*"> {{--mainul--}}
                                             </label>
                                         </div>
                                         <div class="col-4 card p-5 mx-5">
@@ -353,13 +353,13 @@
                                                 </label>
 
                                                 <div class="text-center">
-                                                    <a href="{{route('restaurant.download-store-agreement')}}" download="download"> <!--mainul-->
+                                                    <a href="{{route('show-agreement', ['key' => 'store'])}}" target="_blank"> <!--mainul-->
                                                         <img class="img--110 onerror-image" id="agreement_document_view"
                                                              data-onerror-image="{{ asset('public/assets/admin/img/important-file.png') }}"
                                                              src="{{ asset('public/assets/admin/img/important-file.png') }}"
                                                              alt="agreement_document" />
                                                         <br>
-                                                        <span class="text-center" style="text-decoration: none;">Download</span>
+{{--                                                        <span class="text-center" style="text-decoration: none;">Download</span>--}}
                                                     </a>
                                                 </div>
 
@@ -479,8 +479,14 @@
                         </div>
 {{--                            mainul start--}}
                             <div class=" pt-4 d-flex flex-wrap ">
-                                <label for="termsConditions">
+                                <label for="termsConditions" class="me-3">
                                     <input type="checkbox" style="width: auto" name="agree_terms_conditions" id="termsConditions"> I agree to the <a href="https://mixmrt.com/terms-and-condition.php" style="text-decoration: none; color: blue" target="_blank">Terms and Conditions</a>.
+                                </label>
+                                <label for="privacyPolicy" class="me-3">
+                                    <input type="checkbox" style="width: auto" name="agree_privacy_policy" id="privacyPolicy"> I agree to the <a href="https://mixmrt.com/privacy-policy.php" style="text-decoration: none; color: blue" target="_blank">Privacy Policy</a>.
+                                </label>
+                                <label for="agreementDocs" class="me-3">
+                                    <input type="checkbox" style="width: auto" name="agree_agreement_docs" id="agreementDocs"> I agree to the <a href="https://mixmrt.com/agreement-documents.php" target="_blank" style="text-decoration: none; color: blue">Agreement Documents</a>.
                                 </label>
                             </div>
 {{--                            mainul ends--}}
@@ -677,6 +683,24 @@
                     {
                         e.preventDefault();
                         toastr.error('You must agree with our terms and conditions.');
+                    }
+                }
+                if ($('#privacyPolicy').length)
+                {
+
+                    if (!$('#privacyPolicy').is(':checked'))
+                    {
+                        e.preventDefault();
+                        toastr.error('You must agree with our Privacy Policy.');
+                    }
+                }
+                if ($('#agreementDocs').length)
+                {
+
+                    if (!$('#agreementDocs').is(':checked'))
+                    {
+                        e.preventDefault();
+                        toastr.error('You must agree with our Agreement Documents.');
                     }
                 }
             })

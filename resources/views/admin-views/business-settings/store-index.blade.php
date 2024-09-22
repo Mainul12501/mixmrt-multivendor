@@ -358,43 +358,45 @@
                             </div>
                             </div>
 <div class="row">
-                            <div class="col-2 card  p-5 m-5 d-flex justify-content-center">
+                            <div class="col-11 card  p-5 m-5 d-flex justify-content-center">
                                 <label class="__custom-upload-img py-4">
                                     <label class="form-label mb-3">
                                         {{ translate('Store_agreement') }}
                                     </label>
                                     @php($store_agreement = \App\Models\BusinessSetting::where('key', 'store_agreement')->first())
                                     <div class="text-center">
-                                        @if ($store_agreement)
-                                        <img class="img--110 onerror-image" id="license_view"
-                                        data-onerror-image="{{ asset('public/assets/admin/img/important-file.png') }}"
-                                        src="{{\App\CentralLogics\Helpers::onerror_file_or_image_helper($store_agreement['value'], asset('storage/app/public/agereement/').'/'.$store_agreement['value'], asset('public/assets/admin/img/important-file.png'), 'agereement/') }}"
-                                        alt="dm_agreement" />
-                                        @else
-                                        <img class="img--110 onerror-image" id="license_view"
-                                        data-onerror-image="{{ asset('public/assets/admin/img/important-file.png') }}"
-                                        src="{{ asset('public/assets/admin/img/important-file-upload.png') }}"
-                                        alt="dm_agreement" />
-                                        @endif
+{{--                                        @if ($store_agreement)--}}
+{{--                                        <img class="img--110 onerror-image" id="license_view"--}}
+{{--                                        data-onerror-image="{{ asset('public/assets/admin/img/important-file.png') }}"--}}
+{{--                                        src="{{\App\CentralLogics\Helpers::onerror_file_or_image_helper($store_agreement['value'], asset('storage/app/public/agereement/').'/'.$store_agreement['value'], asset('public/assets/admin/img/important-file.png'), 'agereement/') }}"--}}
+{{--                                        alt="dm_agreement" />--}}
+{{--                                        @else--}}
+{{--                                        <img class="img--110 onerror-image" id="license_view"--}}
+{{--                                        data-onerror-image="{{ asset('public/assets/admin/img/important-file.png') }}"--}}
+{{--                                        src="{{ asset('public/assets/admin/img/important-file-upload.png') }}"--}}
+{{--                                        alt="dm_agreement" />--}}
+{{--                                        @endif--}}
 
                                     </div>
 
-                                    <input type="file" name="store_agreement" id="license" 
-                                        class="custom-file-input"
-                                        accept=".jpg, .png, .jpeg, .gif, .bmp, .tif, .tiff, .pdf, .doc, .docx|image/*, application/pdf, application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document">
+                                    <textarea name="store_agreement" id="store_agreement" class="form-control" cols="30" rows="10">{{ $store_agreement['value'] ?? '' }}</textarea>
+
+{{--                                    <input type="file" name="store_agreement" id="license"--}}
+{{--                                        class="custom-file-input"--}}
+{{--                                        accept=".jpg, .png, .jpeg, .gif, .bmp, .tif, .tiff, .pdf, .doc, .docx|image/*, application/pdf, application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document">--}}
                                 </label>
 
-                                @if ($store_agreement)
-                                <a href="{{route('admin.business-settings.download-store-agreement')}}" class="text-center mr-3 mb-4"> <span class="badge badge-soft-success ml-2 ml-sm-3 text-capitalize">
-                                    {{ translate('messages.download') }}
-                                </span></a>
-                                @endif
+{{--                                @if ($store_agreement)--}}
+{{--                                <a href="{{route('admin.business-settings.download-store-agreement')}}" class="text-center mr-3 mb-4"> <span class="badge badge-soft-success ml-2 ml-sm-3 text-capitalize">--}}
+{{--                                    {{ translate('messages.download') }}--}}
+{{--                                </span></a>--}}
+{{--                                @endif--}}
 
 
 
                             </div>
 
-                            <div class="col-2 card  p-5 m-5 d-flex justify-content-center">
+                            <div class="col-2 card  p-5 m-5 mt-0 d-flex justify-content-center">
                                 <label class="__custom-upload-img py-4">
                                     <label class="form-label mb-3">
                                         {{ translate('courier_company_agereement') }}
@@ -415,7 +417,7 @@
 
                                     </div>
 
-                                    <input type="file" name="courier_company_agereement" id="courier_company_agereement_license" 
+                                    <input type="file" name="courier_company_agereement" id="courier_company_agereement_license"
                                         class="custom-file-input"
                                         accept=".jpg, .png, .jpeg, .gif, .bmp, .tif, .tiff, .pdf, .doc, .docx|image/*, application/pdf, application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document">
                                 </label>
@@ -448,6 +450,13 @@
 
 
 @push('script_2')
+
+    <script src="https://cdn.ckeditor.com/4.22.1/standard/ckeditor.js"></script>
+    <script>
+        $(document).ready(function () {
+            CKEDITOR.replace('store_agreement', {versionCheck:false});
+        })
+    </script>
 
 <script>
     $("#license").change(function() {

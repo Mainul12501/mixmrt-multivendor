@@ -16,4 +16,9 @@ class DisbursementWithdrawalMethod extends Model
     ];
 
     protected $guarded = []; //mainul
+
+    public function withdrawalMethod()
+    {
+        return $this->belongsTo(WithdrawalMethod::class);
+    }
 }

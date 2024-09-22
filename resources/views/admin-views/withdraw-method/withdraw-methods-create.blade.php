@@ -46,7 +46,10 @@
                             <div class="card card-body">
                                 <div class="row gy-4 align-items-center">
                                     <div class="col-md-3 col-12">
-                                        <label>{{ translate('messages.Input_Field_Type')}} <span
+                                        <label>
+                                            {{ translate('messages.Input_Field_Type')}}
+
+                                            <span
                                             class="input-label-secondary text-danger">*</span></label>
                                         <select class="form-control js-select  js-select2-custom" name="field_type[]" required>
                                             {{-- <option value="" selected disabled>{{ translate('messages.Input_Field_Type')}} *</option> --}}
@@ -59,10 +62,17 @@
                                     </div>
                                     <div class="col-md-3 col-12">
                                         <div class="form-floating">
-                                            <label>{{ translate('messages.field_name')}} <span
+                                            <label>
+                                                <span>{{ translate('messages.field_name')}}</span>
+                                                <span class="form-label-secondary text-danger " data-toggle="tooltip" data-placement="right" data-original-title="Recommended structure is multi_word. No special character and dot(.)">
+                                                    <img src="http://127.0.0.1:8000/public/assets/admin/img/info-circle.svg" alt="Customer verification toggle">
+                                                </span>
+
+                                                <span
                                             class="input-label-secondary text-danger">*</span></label>
                                             <input type="text" class="form-control" name="field_name[]"
-                                                    placeholder="{{ translate('messages.Ex:_Account_name')}} " value="" required>
+                                                    placeholder="{{--{{ translate('messages.Ex:_Account_name')}}--}}Ex:Account_name" value="" required>
+{{--                                            <span class="text-success" style="font-size: 11px">Recommended structure is multi_word for multi word. No special and dot(.)</span>--}}
                                         </div>
                                     </div>
                                     <div class="col-md-3 col-12">
@@ -130,7 +140,9 @@
                                 </div>
                                 <div class="col-md-3 col-12">
                                     <div class="form-floating">
-                                        <label>{{ translate('messages.field_name')}} <span
+                                        <label>{{ translate('messages.field_name')}}<span class="form-label-secondary text-danger " data-toggle="tooltip" data-placement="right" data-original-title="Recommended structure is multi_word. No special character and dot(.)">
+                                                    <img src="http://127.0.0.1:8000/public/assets/admin/img/info-circle.svg" alt="Customer verification toggle">
+                                                </span> <span
                                             class="input-label-secondary text-danger">*</span></label>
                                         <input type="text" class="form-control" name="field_name[]"
                                             placeholder="{{ translate('messages.Ex:_Bank')}}" value="" required>

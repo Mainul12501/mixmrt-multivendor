@@ -75,7 +75,7 @@ class DeliveryManController extends Controller
             'vehicle_id' => 'required',
             'earning' => 'required',
             'password' => ['required', Password::min(8)->mixedCase()->letters()->numbers()->symbols()->uncompromised()],
-            'agreement_document'=>'required|file|max:5120|mimes:jpg,png,jpeg', // mainul
+//            'agreement_document'=>'file|max:5120|mimes:jpg,png,jpeg', // mainul
         ], [
             'f_name.required' => translate('messages.first_name_is_required'),
             'zone_id.required' => translate('messages.select_a_zone'),

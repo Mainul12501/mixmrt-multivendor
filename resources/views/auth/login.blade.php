@@ -345,6 +345,7 @@ $(document).on('click','.reloadCaptcha', function(){
         });
     });
 </script>
+<!-- recaptcha code starts -->
 @if(isset($recaptcha) && $recaptcha['status'] == 1)
     <script type="text/javascript">
     "use strict";
