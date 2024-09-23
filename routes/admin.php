@@ -185,6 +185,7 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
                 Route::get('view/{store}/{tab?}/{sub_tab?}', 'VendorController@view')->name('view');
                 Route::get('list', 'VendorController@list')->name('list');
                 Route::get('pending-requests', 'VendorController@pending_requests')->name('pending-requests');
+                Route::get('pending-method-requests', 'VendorController@pending_method_requests')->name('pending-method-requests');
                 Route::get('deny-requests', 'VendorController@deny_requests')->name('deny-requests');
                 Route::post('search', 'VendorController@search')->name('search');
                 Route::get('export', 'VendorController@export')->name('export');

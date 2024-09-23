@@ -116,8 +116,8 @@ class DeliveryManController extends Controller
         $dm->password = bcrypt($request->password);
         $dm->application_status= 'pending';
 
-        $agreement_document_extension = $request->file('agreement_document')->extension();
-        $dm->agreement_document = Helpers::upload('delivery-man/', $agreement_document_extension, $request->file('agreement_document'));
+//        $agreement_document_extension = $request->file('agreement_document')->extension();
+//        $dm->agreement_document = Helpers::upload('delivery-man/', $agreement_document_extension, $request->file('agreement_document'));
 
         $dm->save();
 

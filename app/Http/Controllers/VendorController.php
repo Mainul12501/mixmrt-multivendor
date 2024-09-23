@@ -37,9 +37,9 @@ class VendorController extends Controller
             $agreement = \App\Models\BusinessSetting::where('key', 'dm_agreement')->first();
         } elseif ($key == 'courier')
         {
-            $agreement = \App\Models\BusinessSetting::where('key', 'dm_agreement')->first();
+            $agreement = \App\Models\BusinessSetting::where('key', 'courier_company_agereement')->first();
         }
-        return view('vendor.agreement', ['agreement' => $agreement ?? '']);
+//        return view('vendor.agreement', ['agreement' => $agreement ?? '']);
         if (str()->contains(url()->current(), '/api/'))
         {
             if (empty($agreement))
@@ -119,7 +119,7 @@ class VendorController extends Controller
             'register_no'=>'required',
             'tax_document'=>'required|file|max:5120|mimes:jpg,png,jpeg,gif,bmp,tif,tiff', // mainul
             'registration_document'=>'required|file|max:5120|mimes:jpg,png,jpeg,gif,bmp,tif,tiff', // mainul
-            'agreement_document'=>'file|max:5120|mimes:jpg,png,jpeg,gif,bmp,tif,tiff', // mainul
+//            'agreement_document'=>'file|max:5120|mimes:jpg,png,jpeg,gif,bmp,tif,tiff', // mainul
 //            'agreement_document'=>'required|file|max:5120|mimes:jpg,png,jpeg,gif,bmp,tif,tiff,pdf,doc,docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document',
         ]);
         if ($validator->fails()) {
@@ -455,7 +455,7 @@ public function final_step(Request $request){
             // 'module_id' => 'required',
             'logo' => 'required',
             // 'tax' => 'required',
-            'tax_id'=>'required|unique:vendors',
+            'tax_id'=>'required|unique:stores',
             'register_no'=>'required',
             'tax_document'=>'required|file|max:5120|mimes:jpg,png,jpeg,gif,bmp,tif,tiff',
             'registration_document'=>'required|file|max:5120|mimes:jpg,png,jpeg,gif,bmp,tif,tiff',
@@ -515,8 +515,8 @@ public function final_step(Request $request){
         $registration_document_extension = $request->file('registration_document')->extension();
         $store->registration_document = Helpers::upload('store/', $registration_document_extension, $request->file('registration_document'));
 
-        $agreement_document_extension = $request->file('agreement_document')->extension();
-        $store->agreement_document = Helpers::upload('store/', $agreement_document_extension, $request->file('agreement_document'));
+//        $agreement_document_extension = $request->file('agreement_document')->extension();
+//        $store->agreement_document = Helpers::upload('store/', $agreement_document_extension, $request->file('agreement_document'));
 
         $store->store_type="company";
         $store->item_section=0;

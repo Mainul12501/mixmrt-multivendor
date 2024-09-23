@@ -456,13 +456,13 @@ data-original-title="{{ translate('messages.select_zone_for_map') }}"><img
                     {{--                            mainul start--}}
                     <div class=" pt-4 ps-4 d-flex flex-wrap ">
                         <label for="termsConditions" class="me-3">
-                            <input type="checkbox" style="width: auto" name="agree_terms_conditions" id="termsConditions"> I agree to the <a href="https://mixmrt.com/terms-and-condition.php" style="text-decoration: none; color: blue" target="_blank">Terms and Conditions</a>.
+                            <input type="checkbox" style="width: auto" name="agree_terms_conditions" id="termsConditions"> I agree to the <a href="{{ route('terms-and-conditions') }}" style="text-decoration: none; color: blue" target="_blank">Terms and Conditions</a>.
                         </label>
                         <label for="privacyPolicy" class="me-3">
-                            <input type="checkbox" style="width: auto" name="agree_privacy_policy" id="privacyPolicy"> I agree to the <a href="https://mixmrt.com/privacy-policy.php" style="text-decoration: none; color: blue" target="_blank">Privacy Policy</a>.
+                            <input type="checkbox" style="width: auto" name="agree_privacy_policy" id="privacyPolicy"> I agree to the <a href="{{ route('privacy-policy') }}" style="text-decoration: none; color: blue" target="_blank">Privacy Policy</a>.
                         </label>
                         <label for="agreementDocs" class="me-3">
-                            <input type="checkbox" style="width: auto" name="agree_agreement_docs" id="agreementDocs"> I agree to the <a href="https://mixmrt.com/agreement-documents.php" target="_blank" style="text-decoration: none; color: blue">Agreement Documents</a>.
+                            <input type="checkbox" style="width: auto" name="agree_agreement_docs" id="agreementDocs"> I agree to the <a href="{{ route('show-agreement', ['key' => 'courier']) }}" target="_blank" style="text-decoration: none; color: blue">Agreement Documents</a>.
                         </label>
                     </div>
                     {{--                            mainul ends--}}

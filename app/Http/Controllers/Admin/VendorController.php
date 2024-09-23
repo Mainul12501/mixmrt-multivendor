@@ -698,6 +698,12 @@ class VendorController extends Controller
         return view('admin-views.vendor.pending_requests', compact('stores', 'zone','type', 'search_by'));
     }
 
+    public function pending_method_requests()
+    {
+        $disbursementWithdrawlMethods = DisbursementWithdrawalMethod::where('pending_status', 1)->with('store')->paginate(config('default_pagination'));
+        return view('admin-views.vendor.pending_method_requests', compact('disbursementWithdrawlMethods'));
+    }
+
     public function deny_requests(Request $request)
     {
         $search_by = $request->query('search_by');

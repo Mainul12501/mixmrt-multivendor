@@ -396,30 +396,30 @@
 
                             </div>
 
-                            <div class="col-2 card  p-5 m-5 mt-0 d-flex justify-content-center">
+                            <div class="col-12 card  p-5 m-5 mt-0 d-flex justify-content-center">
                                 <label class="__custom-upload-img py-4">
                                     <label class="form-label mb-3">
                                         {{ translate('courier_company_agereement') }}
                                     </label>
                                     @php($courier_company_agereement = \App\Models\BusinessSetting::where('key', 'courier_company_agereement')->first())
                                     <div class="text-center">
-                                        @if ($courier_company_agereement)
-                                        <img class="img--110 onerror-image" id="courier_company_agereement_license_view"
-                                        data-onerror-image="{{ asset('public/assets/admin/img/important-file.png') }}"
-                                        src="{{\App\CentralLogics\Helpers::onerror_file_or_image_helper($courier_company_agereement['value'], asset('storage/app/public/agereement/').'/'.$courier_company_agereement['value'], asset('public/assets/admin/img/important-file.png'), 'agereement/') }}"
-                                        alt="courier_company_agereement" />
-                                        @else
-                                        <img class="img--110 onerror-image" id="courier_company_agereement_license_view"
-                                        data-onerror-image="{{ asset('public/assets/admin/img/important-file.png') }}"
-                                        src="{{ asset('public/assets/admin/img/important-file-upload.png') }}"
-                                        alt="courier_company_agereement" />
-                                        @endif
+{{--                                        @if ($courier_company_agereement)--}}
+{{--                                        <img class="img--110 onerror-image" id="courier_company_agereement_license_view"--}}
+{{--                                        data-onerror-image="{{ asset('public/assets/admin/img/important-file.png') }}"--}}
+{{--                                        src="{{\App\CentralLogics\Helpers::onerror_file_or_image_helper($courier_company_agereement['value'], asset('storage/app/public/agereement/').'/'.$courier_company_agereement['value'], asset('public/assets/admin/img/important-file.png'), 'agereement/') }}"--}}
+{{--                                        alt="courier_company_agereement" />--}}
+{{--                                        @else--}}
+{{--                                        <img class="img--110 onerror-image" id="courier_company_agereement_license_view"--}}
+{{--                                        data-onerror-image="{{ asset('public/assets/admin/img/important-file.png') }}"--}}
+{{--                                        src="{{ asset('public/assets/admin/img/important-file-upload.png') }}"--}}
+{{--                                        alt="courier_company_agereement" />--}}
+{{--                                        @endif--}}
 
                                     </div>
-
-                                    <input type="file" name="courier_company_agereement" id="courier_company_agereement_license"
-                                        class="custom-file-input"
-                                        accept=".jpg, .png, .jpeg, .gif, .bmp, .tif, .tiff, .pdf, .doc, .docx|image/*, application/pdf, application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document">
+                                    <textarea name="courier_company_agereement" id="courier_company_agereement" class="form-control" cols="30" rows="10">{{ $courier_company_agereement['value'] ?? '' }}</textarea>
+{{--                                    <input type="file" name="courier_company_agereement" id="courier_company_agereement_license"--}}
+{{--                                        class="custom-file-input"--}}
+{{--                                        accept=".jpg, .png, .jpeg, .gif, .bmp, .tif, .tiff, .pdf, .doc, .docx|image/*, application/pdf, application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document">--}}
                                 </label>
 
                                 @if ($courier_company_agereement)
@@ -455,6 +455,7 @@
     <script>
         $(document).ready(function () {
             CKEDITOR.replace('store_agreement', {versionCheck:false});
+            CKEDITOR.replace('courier_company_agereement', {versionCheck:false});
         })
     </script>
 

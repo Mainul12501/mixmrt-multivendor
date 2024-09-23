@@ -5216,4 +5216,9 @@
   'Request accepted Successfully' => 'Request accepted Successfully',
   'Request Changes' => 'Request Changes',
   'Disbursement_method_request_sent.' => 'Disbursement method request sent.',
+  'Disbursement Requests' => 'Disbursement Requests',
+  'Disbursement Pending Requests' => 'Disbursement Pending Requests',
+  'Requested Method' => 'Requested Method',
+  'Owner Information' => 'Owner Information',
+  'Store Name' => 'Store Name',
 );

@@ -38,6 +38,9 @@
                             <li class="nav-item">
                                 <a class="nav-link active" href="{{ route('admin.store.deny-requests') }}"  aria-disabled="true">{{translate('messages.denied_stores')}}</a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('admin.store.pending-method-requests') }}"  aria-disabled="true">{{translate('messages.Disbursement Requests')}}</a>
+                            </li>
                         </ul>
                         <!-- End Nav -->
                     </div>

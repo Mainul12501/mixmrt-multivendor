@@ -462,6 +462,6 @@ Route::group(['namespace' => 'Api\V1', 'middleware'=>'localization'], function (
     Route::get('vehicle/extra_charge', 'ConfigController@extra_charge');
     Route::get('get-vehicles', 'ConfigController@get_vehicles');
 });
-Route::get('show-agreement/{key}', 'VendorController@showAgreement')->name('show-agreement');
+Route::get('show-agreement/{key}', 'VendorController@showAgreement');
 
 WebSocketsRouter::webSocket('/delivery-man/live-location', DMLocationSocketHandler::class);
