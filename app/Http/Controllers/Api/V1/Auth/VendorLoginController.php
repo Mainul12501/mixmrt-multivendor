@@ -216,8 +216,8 @@ class VendorLoginController extends Controller
         $registration_document_extension = $request->file('registration_document')->extension();
         $store->registration_document = Helpers::upload('store/', $registration_document_extension, $request->file('registration_document'));
 
-        $agreement_document_extension = $request->file('agreement_document')->extension();
-        $store->agreement_document = Helpers::upload('store/', $agreement_document_extension, $request->file('agreement_document'));
+//        $agreement_document_extension = $request->file('agreement_document')->extension();
+//        $store->agreement_document = Helpers::upload('store/', $agreement_document_extension, $request->file('agreement_document'));
         $store->store_business_model = 'none';
         $store->save();
         $store->module->increment('stores_count');

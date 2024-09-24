@@ -151,8 +151,8 @@ class DeliveryManLoginController extends Controller
         $dm->zone_id = $request->zone_id;
         $dm->earning = $request->earning;
         $dm->password = bcrypt($request->password);
-        $agreement_document_extension = $request->file('agreement_document')->extension();
-        $dm->agreement_document = Helpers::upload('store/', $agreement_document_extension, $request->file('agreement_document'));
+//        $agreement_document_extension = $request->file('agreement_document')->extension();
+//        $dm->agreement_document = Helpers::upload('store/', $agreement_document_extension, $request->file('agreement_document'));
 
         $dm->save();
         try{
