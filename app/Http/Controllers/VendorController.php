@@ -44,10 +44,10 @@ class VendorController extends Controller
         {
             if (empty($agreement))
             {
-                return response()->json(['status' => 'failed', 'message' => 'Agreement data not found'], 404);
+                return response()->json('Agreement data not found', 404);
             } else {
 //                $agreement->value = strip_tags($agreement->value);
-                return response()->json(['status' => 'success', 'agreement' => $agreement ?? ''], 200);
+                return response()->json($agreement->value ?? '', 200);
             }
         } else {
             return view('vendor.agreement', ['agreement' => $agreement ?? '']);
