@@ -178,6 +178,7 @@
                         <th class="border-0">{{translate('messages.zone')}}</th>
                         <th class="text-uppercase border-0">{{translate('messages.featured')}}</th>
                         <th class="text-uppercase border-0">{{translate('messages.status')}}</th>
+                        <th class="text-uppercase border-0">{{translate('messages.Reason')}}</th>
                         <th class="text-center border-0">{{translate('messages.action')}}</th>
                     </tr>
                     </thead>
@@ -236,7 +237,7 @@
                                 @if(isset($store->vendor->status))
                                     @if($store->vendor->status)
                                     <label class="toggle-switch toggle-switch-sm" for="stocksCheckbox{{$store->id}}">
-                                        <input type="checkbox" data-url="{{route('admin.store.status',[$store->id,$store->status?0:1])}}" data-message="{{translate('messages.you_want_to_change_this_store_status')}}" class="toggle-switch-input status_change_alert" id="stocksCheckbox{{$store->id}}" {{$store->status?'checked':''}}>
+                                        <input type="checkbox" data-url="{{route('admin.store.status',[$store->id,$store->status?0:1])}}" data-message="{{translate('messages.you_want_to_change_this_store_status')}}" class="toggle-switch-input status_change_alert_message" id="stocksCheckbox{{$store->id}}" {{$store->status?'checked':''}}>
                                         <span class="toggle-switch-label">
                                             <span class="toggle-switch-indicator"></span>
                                         </span>
@@ -246,6 +247,12 @@
                                     @endif
                                 @else
                                     <span class="badge badge-soft-danger">{{translate('messages.pending')}}</span>
+                                @endif
+                            </td>
+
+                            <td>
+                                @if($store->status == 0 || $store->vendor->status == 0)
+                                    <p class="text-danger">{{ $store->reason }}</p>
                                 @endif
                             </td>
 
@@ -295,6 +302,35 @@
 @endsection
 
 @push('script_2')
+    <script>
+        $('.status_change_alert_message').on('click', function(event){
+            let url = $(this).data('url');
+            let message = $(this).data('message');
+            if ($(this).is(':checked'))
+            {
+                status_change_alert(url, message, event)
+            } else {
+                Swal.fire({
+                    title: 'Are you sure',
+                    // text: message,
+                    type: 'warning',
+                    showCancelButton: true,
+                    cancelButtonColor: 'default',
+                    confirmButtonColor: '#FC6A57',
+                    cancelButtonText: 'No',
+                    confirmButtonText: 'Yes',
+                    reverseButtons: true,
+                    html: `<p>${message}. Tell us why?.</p><textarea name="reason" class="form-control" id="denyReason" cols="30" rows="3"></textarea>`
+                }).then((result) => {
+                    if (result.value) {
+                        // let url = $(this).data('url')+'?reason='+$('#denyReason').val();
+                        // console.log(url);
+                        location.href = url+'?reason='+$('#denyReason').val();
+                    }
+                })
+            }
+        })
+    </script>
     <script>
         "use strict";
         $('.status_change_alert').on('click', function (event) {

@@ -99,7 +99,7 @@ class DeliveryManController extends Controller
             'email' => 'required|unique:delivery_men',
             'phone' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:10|unique:delivery_men',
             'password' => ['required', Password::min(8)->mixedCase()->letters()->numbers()->symbols()->uncompromised()],
-            'agreement_document'=>'required|file|max:5120|mimes:jpg,png,jpeg,gif,bmp,tif,tiff,pdf,doc,docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+//            'agreement_document'=>'required|file|max:5120|mimes:jpg,png,jpeg,gif,bmp,tif,tiff,pdf,doc,docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document',
         ]);
 
         if ($validator->fails()) {
@@ -138,8 +138,8 @@ class DeliveryManController extends Controller
         $dm->earning = 0;
         $dm->type = 'restaurant_wise';
         $dm->password = bcrypt($request->password);
-        $agreement_document_extension = $request->file('agreement_document')->extension();
-        $dm->agreement_document = Helpers::upload('store/', $agreement_document_extension, $request->file('agreement_document'));
+//        $agreement_document_extension = $request->file('agreement_document')->extension();
+//        $dm->agreement_document = Helpers::upload('store/', $agreement_document_extension, $request->file('agreement_document'));
         $dm->save();
 
         return response()->json(['message' => translate('messages.deliveryman_added_successfully')], 200);
@@ -259,10 +259,10 @@ class DeliveryManController extends Controller
 
 
         $delivery_man->password = strlen($request->password)>1?bcrypt($request->password):$delivery_man['password'];
-        if($request->agreement_document){
-        $agreement_document_extension = $request->file('agreement_document')->extension();
-        $delivery_man->agreement_document = Helpers::upload('store/', $agreement_document_extension, $request->file('agreement_document'));
-        }
+//        if($request->agreement_document){
+//        $agreement_document_extension = $request->file('agreement_document')->extension();
+//        $delivery_man->agreement_document = Helpers::upload('store/', $agreement_document_extension, $request->file('agreement_document'));
+//        }
         $delivery_man->save();
 
         return response()->json(['message' => translate('messages.deliveryman_updated_successfully')], 200);
@@ -303,5 +303,5 @@ class DeliveryManController extends Controller
 
         return response()->json(['message' => translate('messages.deliveryman_deleted_successfully')], 200);
     }
- 
+
 }

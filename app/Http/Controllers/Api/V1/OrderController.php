@@ -892,7 +892,7 @@ class OrderController extends Controller
            $original_delivery_charge = ((($request->distance * $per_km_shipping_charge) +($total_weight * $per_kg_charge)) > $minimum_shipping_charge) ? (($request->distance * $per_km_shipping_charge) + ($total_weight * $per_kg_charge)) : $minimum_shipping_charge;
            $order->original_delivery_charge = round($original_delivery_charge, config('round_up_to_digit'));
            $order->order_amount = round($total_price + $tax_a + $order->dm_tips + $order->additional_charge + $order->delivery_charge, config('round_up_to_digit'));
-            
+
            if($free_delivery_type != 'free_delivery'){
                 $delivery_charge = $original_delivery_charge + $extra_charges;
                 if ($maximum_shipping_charge  >= $minimum_shipping_charge  && $delivery_charge >  $maximum_shipping_charge) {
@@ -902,7 +902,7 @@ class OrderController extends Controller
                 $order->delivery_charge = substr(number_format($delivery_charge, config('round_up_to_digit')+1, '.', ''), 0, -1)??0;
                 $order->order_amount = round($total_price + $tax_a + $delivery_charge + $order->dm_tips + $order->additional_charge, config('round_up_to_digit'));
             }
-            
+
     // charge end
 
 
@@ -975,7 +975,7 @@ class OrderController extends Controller
         //     $order->original_delivery_charge = round($original_delivery_charge, config('round_up_to_digit'));
         //     $order->order_amount = round($total_price + $tax_a + $delivery_charge + $order->dm_tips + $order->additional_charge, config('round_up_to_digit'));
         // }
-        // if($request->order_type !== 'parcel' && $module_name !== 'ecommerce'){ 
+        // if($request->order_type !== 'parcel' && $module_name !== 'ecommerce'){
         //     $order->order_amount = round($total_price + $tax_a + $order->dm_tips + $order->additional_charge + $order->delivery_charge, config('round_up_to_digit'));
         // }
         try {
@@ -1785,6 +1785,14 @@ class OrderController extends Controller
             try {
                 if (config('mail.status') && $admin['email'] && $mail_status == '1') {
                     Mail::to($admin['email'])->send(new RefundRequest($order->id));
+                }
+            } catch (\Exception $ex) {
+                info($ex->getMessage());
+            }
+            try {
+                $storeEmail = Store::find($order->store_id)->email;
+                if (config('mail.status') && $storeEmail !=null && $mail_status == '1') {
+                    Mail::to($storeEmail)->send(new RefundRequest($order->id));
                 }
             } catch (\Exception $ex) {
                 info($ex->getMessage());

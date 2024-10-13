@@ -539,7 +539,7 @@ class VendorController extends Controller
         if(!$order){
             return response()->json(['errors'=>[['code'=>'order_id', 'message'=>trans('messages.order_data_not_found')]]],404);
         }
-        return response()->json(Helpers::order_data_formatting($order),200);
+        return response()->json(json_decode(Helpers::order_data_formatting($order, false, true)),200);
     }
 
     public function get_all_orders(Request $request)
@@ -1195,7 +1195,7 @@ class VendorController extends Controller
                 {
                     $fields = array_column($method->method_informations, 'customer_input');
                     $values = $request->all();
-    
+
                     $offline_payment_info['method_id'] = $request->method_id;
                     $offline_payment_info['method_name'] = $method->method_name;
                     foreach ($fields as $field) {
@@ -1204,9 +1204,9 @@ class VendorController extends Controller
                         }
                     }
                 }
-    
+
                 $OfflinePayments= new OfflinePayments();
-    
+
                 $OfflinePayments->payment_info =json_encode($offline_payment_info);
                 $OfflinePayments->method_fields = json_encode($method?->method_fields);
                 $OfflinePayments->store_id = $store->id;
@@ -1215,7 +1215,7 @@ class VendorController extends Controller
                 DB::beginTransaction();
                 $OfflinePayments->save();
                 DB::commit();
-    
+
             } catch (\Exception $e) {
                 info($e->getMessage());
                 DB::rollBack();

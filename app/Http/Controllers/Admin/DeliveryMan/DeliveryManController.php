@@ -101,7 +101,7 @@ class DeliveryManController extends BaseController
         return view(DeliveryManViewPath::NEW[VIEW], compact('deliveryMen','zone','searchBy'));
     }
 
-    public function getDeniedDeliveryManView(Request $request): View
+    public function getDeniedDeliveryManView(Request $request)/*: View*/
     {
         $searchBy = $request->query('search_by');
         $zoneId = $request->query('zone_id', 'all');
@@ -181,7 +181,7 @@ class DeliveryManController extends BaseController
 
     public function updateStatus(Request $request,UserNotificationRepositoryInterface $notificationRepo): RedirectResponse
     {
-        $deliveryMan = $this->deliveryManRepo->update(id: $request['id'] ,data: ['status'=>$request['status']]);
+        $deliveryMan = $this->deliveryManRepo->update(id: $request['id'] ,data: ['status'=>$request['status'], 'reason' => $request->reason]);
 
 
             if($request['status'] == 0)
@@ -425,7 +425,7 @@ class DeliveryManController extends BaseController
 
     public function updateApplication(Request $request): RedirectResponse
     {
-        $deliveryMan = $this->deliveryManRepo->update(id: $request['id'] ,data: ['application_status'=>$request['status']]);
+        $deliveryMan = $this->deliveryManRepo->update(id: $request['id'] ,data: ['application_status'=>$request['status'], 'reason' => $request->reason]);
         if($request['status'] == 'approved') $this->deliveryManRepo->update(id: $request['id'] ,data: ['status'=>1]);
         try{
             if($request['status']=='approved'){

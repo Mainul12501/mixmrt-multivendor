@@ -8,7 +8,9 @@ use App\Models\BusinessSetting;
 use App\Models\User;
 use App\Models\WalletBonus;
 use App\Models\WalletPayment;
+use App\Models\WalletToBank;
 use App\Models\WalletTransaction;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use App\Library\Payer;
@@ -138,5 +140,31 @@ class WalletController extends Controller
     {
         $bonuses = WalletBonus::Active()->Running()->latest()->get();
         return response()->json($bonuses??[],200);
+    }
+
+    public function reqToTransfer(Request $request)
+    {
+        try {
+            $loggedUser = $request->user();
+            if ($loggedUser->wallet_balance < $request->request_balance)
+            {
+                return response()->json(['errors' => ['message' => 'Too much Amount.']], 403);
+            }
+            $walletToBank = new WalletToBank();
+            $walletToBank->user_id  = $loggedUser->id;
+            $walletToBank->request_balance  = $request->request_balance;
+            $walletToBank->bank_name  = $request->bank_name;
+            $walletToBank->bank_account_number  = $request->bank_account_number;
+            $walletToBank->bank_routing_number  = $request->bank_routing_number;
+            $walletToBank->notes  = $request->notes;
+            DB::beginTransaction();
+            $walletToBank->save();
+            DB::commit();
+            return response()->json(['success' => ['message' => 'Request sent successfully.']], 403);
+        } catch (\Exception $exception)
+        {
+            return response()->json($exception->getMessage());
+        }
+        return response()->json();
     }
 }

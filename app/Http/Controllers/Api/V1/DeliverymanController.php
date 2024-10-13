@@ -660,7 +660,7 @@ class DeliverymanController extends Controller
                 ]
             ], 204);
         }
-        return response()->json(Helpers::order_data_formatting($order), 200);
+        return response()->json(json_decode(Helpers::order_data_formatting($order, false, true)), 200);
     }
 
     public function get_all_orders(Request $request)
@@ -862,7 +862,7 @@ class DeliverymanController extends Controller
         }
         $dm = DeliveryMan::where(['auth_token' => $request['token']])->firstOrfail();
         $offline_payments = OfflinePayments::where('status','pending')->where('delivery_man_id', $dm->id)->where('type', 'deliveryman')->latest()->get();
-       
+
         $total_offline_payments=0;
         foreach($offline_payments as $op)
         {
@@ -876,10 +876,10 @@ class DeliverymanController extends Controller
         //         ['code' => 'order', 'message' => 'insufficient balance']
         //     ]
         // ], 404);
-            
+
         // }
 
-        
+
         $offline_payment_info = [];
         $method = OfflinePaymentMethod::where(['id' => $request->method_id, 'status' => 1])->first();
         try {
@@ -1213,5 +1213,17 @@ class DeliverymanController extends Controller
             'disbursements' => $paginator->items()
         ];
         return response()->json($data, 200);
+    }
+
+    public function dmTransHistoy($dmId)
+    {
+        $deliveryManWallets = DeliveryManWallet::where(['delivery_man_id' => $dmId])->get();
+        return response()->json($deliveryManWallets, 200);
+        if (count($deliveryManWallets) > 0)
+        {
+            return response()->json(['status' => 'success', 'data' => $deliveryManWallets], 200);
+        } else {
+            return  response()->json([['status' => 'error', 'data' => 'No Data found']]);
+        }
     }
 }

@@ -1936,7 +1936,7 @@ class CompanyController extends Controller
         // $store->delivery_time = $request->minimum_delivery_time .'-'. $request->maximum_delivery_time.' '.$request->delivery_time_type;
         $store->tax_id =  $request->tax_id;
         $store->register_no = $request->register_no;
-       
+
         $tax_document_extension = $request->file('tax_document')->extension();
         $store->tax_document = Helpers::upload('store/', $tax_document_extension, $request->file('tax_document'));
 
@@ -1945,7 +1945,7 @@ class CompanyController extends Controller
 
         $agreement_document_extension = $request->file('agreement_document')->extension();
         $store->agreement_document = Helpers::upload('store/', $agreement_document_extension, $request->file('agreement_document'));
-        
+
         $store->status=1;
         $store->store_type="company";
         $store->item_section=0;

@@ -827,8 +827,9 @@ class Helpers
         return ['item' => $items, 'store' => $stores];
     }
 
-    public static function order_data_formatting($data, $multi_data = false)
+    public static function order_data_formatting($data, $multi_data = false, $requestMod = false)
     {
+
         $storage = [];
         if ($multi_data) {
             foreach ($data as $item) {
@@ -871,7 +872,7 @@ class Helpers
                     }
                 }
 
-                $item['delivery_address'] = $item->delivery_address ? json_decode($item->delivery_address, true) : null;
+//                $item['delivery_address'] = $item->delivery_address ? json_decode($item->delivery_address, true) : null;
                 $item['details_count'] = (int)$item->details->count();
                 $item['min_delivery_time'] =  $item->store ? (int)explode('-',$item->store?->delivery_time)[0] ?? 0:0;
                 $item['max_delivery_time'] =  $item->store ? (int)explode('-',$item->store?->delivery_time)[1] ?? 0:0;
@@ -898,6 +899,7 @@ class Helpers
                 $data['store_business_model'] = $data['store']['store_business_model'];
 
                 unset($data['store']);
+
             } else {
                 $data['store_name'] = null;
                 $data['store_address'] = null;
@@ -908,10 +910,10 @@ class Helpers
                 $data['store_logo_full_url'] = null;
                 $data['min_delivery_time'] = null;
                 $data['max_delivery_time'] = null;
-                $item['vendor_id'] = null;
-                $item['chat_permission'] = null;
-                $item['review_permission'] = null;
-                $item['store_business_model'] = null;
+                $data['vendor_id'] = null;
+                $data['chat_permission'] = null;
+                $data['review_permission'] = null;
+                $data['store_business_model'] = null;
             }
 
             $data['item_campaign'] = 0;
@@ -926,7 +928,12 @@ class Helpers
 
             unset($data['details']);
         }
-        return $data;
+        if ($requestMod)
+        {
+            return json_encode($data);
+        } else {
+            return $data;
+        }
     }
 
     public static function order_details_data_formatting($data)

@@ -128,6 +128,9 @@ Route::group(['namespace' => 'Api\V1', 'middleware'=>'localization'], function (
                 Route::get('details', 'ConversationController@dm_messages');
                 Route::post('send', 'ConversationController@dm_messages_store');
             });
+
+//            get dm trans history
+            Route::get('/trans-history/{dmId?}', 'DeliverymanController@dmTransHistoy')->name('dm_trans_history');
         });
     });
 
@@ -334,6 +337,9 @@ Route::group(['namespace' => 'Api\V1', 'middleware'=>'localization'], function (
                 Route::get('bonuses', 'WalletController@get_bonus');
                 Route::post('add-fund', 'WalletController@add_fund');
             });
+
+//            wallet to bank transfer routes
+            Route::post('/req-to-transfer', 'WalletController@reqToTransfer');
 
             Route::get('visit-again', 'OrderController@order_again');
 

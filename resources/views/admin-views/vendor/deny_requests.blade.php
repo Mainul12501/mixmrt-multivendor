@@ -87,6 +87,7 @@
                         <th class="border-0">{{translate('messages.owner_information')}}</th>
                         <th class="border-0">{{translate('messages.zone')}}</th>
                         <th class="text-uppercase border-0">{{translate('messages.status')}}</th>
+                        <th class="text-uppercase border-0">{{translate('messages.Reason')}}</th>
                         <th class="border-0">{{translate('messages.action')}}</th>
                     </tr>
                     </thead>
@@ -143,7 +144,7 @@
                                     <span class="badge badge-soft-danger">{{translate('messages.pending')}}</span>
                                 @endif
                             </td>
-
+                            <td>{{ $store->reason }}</td>
                             <td>
                                 @if($store->vendor->status == 0)
                                     <a class="btn action-btn btn--primary btn-outline-primary float-right mr-2 request_alert" data-toggle="tooltip" data-placement="top"

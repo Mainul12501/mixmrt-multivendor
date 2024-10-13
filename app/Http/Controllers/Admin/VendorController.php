@@ -838,6 +838,10 @@ class VendorController extends Controller
     public function status(Store $store, Request $request)
     {
         $store->status = $request->status;
+        if (isset($request->reason))
+        {
+            $store->reason  = $request->reason;
+        }
         $store->save();
         $vendor = $store->vendor;
 
@@ -1057,7 +1061,13 @@ class VendorController extends Controller
         $store = Store::findOrFail($request->id);
         $store->vendor->status = $request->status;
         $store->vendor->save();
-        if($request->status) $store->status = 1;
+        if ($request->status)
+        {
+            $store->status = 1;
+        } else {
+            $store->reason = $request->reason;
+        }
+//        if($request->status) $store->status = 1;
 
         $add_days= 1;
         if($store?->store_sub_update_application){

@@ -158,7 +158,7 @@
                                             href="javascript:"><i class="tio-done font-weight-bold"></i></a>
                                     @endif
                                     @if (!isset($store->vendor->status))
-                                        <a class="btn action-btn btn--danger btn-outline-danger float-right request_alert" data-toggle="tooltip" data-placement="top"
+                                        <a class="btn action-btn btn--danger btn-outline-danger float-right data-deny" data-toggle="tooltip" data-placement="top"
                                         data-original-title="{{ translate('messages.deny') }}"
                                         data-url="{{route('admin.store.application',[$store['id'],0])}}" data-message="{{translate('messages.you_want_to_deny_this_application')}}"
                                             href="javascript:"><i class="tio-clear font-weight-bold"></i></a>
@@ -193,6 +193,31 @@
 @endsection
 
 @push('script_2')
+    <script>
+        $('.data-deny').on('click', function(){
+            // let url = $(this).data('url');
+            // let message = $(this).data('message');
+
+            Swal.fire({
+                title: 'Are you sure',
+                // text: message,
+                type: 'warning',
+                showCancelButton: true,
+                cancelButtonColor: 'default',
+                confirmButtonColor: '#FC6A57',
+                cancelButtonText: 'No',
+                confirmButtonText: 'Yes',
+                reverseButtons: true,
+                html: `<p>Tell us why you want to deny this application.</p><textarea name="reason" class="form-control" id="denyReason" cols="30" rows="3"></textarea>`
+            }).then((result) => {
+                if (result.value) {
+                    let url = $(this).data('url')+'?reason='+$('#denyReason').val();
+                    // console.log(url);
+                    location.href = url;
+                }
+            })
+        })
+    </script>
     <script>
         "use strict";
         $('.status_change_alert').on('click', function (event) {

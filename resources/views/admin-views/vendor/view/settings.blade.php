@@ -73,8 +73,8 @@
                                 </label>
                             </div>
                         </div>
-                        @if ($store->store_business_model == 'commission')
-
+                        @if ($store->store_business_model == 'commission' || (isset($store?->store_sub_update_application?->package?->self_delivery) && $store?->store_sub_update_application?->package?->self_delivery	== 1))
+{{--                        have to check for self delivery option in subscription--}}
                         <div class="col-sm-6 col-lg-4">
                             <div class="form-group mb-0">
                                 <label class="toggle-switch toggle-switch-sm d-flex justify-content-between border border-secondary rounded px-4 form-control" for="self_delivery_system">
@@ -359,7 +359,7 @@
             $('.js-select2-custom').each(function () {
                 let select2 = $.HSCore.components.HSSelect2.init($(this));
             });
-         
+
 
         });
 

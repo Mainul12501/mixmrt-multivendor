@@ -260,7 +260,7 @@
                             </a>
 
                             <a href="javascript:"
-                                class="btn request-alert py-2 {{ $deliveryMan->status ? 'btn--danger' : 'btn-success' }} align-items-center d-flex"
+                                class="btn data-deny py-2 {{ $deliveryMan->status ? 'btn--danger' : 'btn-success' }} align-items-center d-flex"
                                 data-url="{{ route('admin.users.delivery-man.status', [$deliveryMan['id'], $deliveryMan->status ? 0 : 1]) }}"
                                 data-message="{{ $deliveryMan->status ? translate('messages.you_want_to_suspend_this_deliveryman') : translate('messages.you_want_to_unsuspend_this_deliveryman') }}">
                                 {{ $deliveryMan->status ? translate('messages.suspend_this_delivery_man') : translate('messages.unsuspend_this_delivery_man') }}
@@ -288,7 +288,13 @@
 
 
                 </div>
+
 @endif
+                    @if(($deliveryMan->application_status == 'denied') || ($deliveryMan['status'] == 0))
+                        <div class="mb-3">
+                            <span class="text-danger">Reason: {{ $deliveryMan->reason }}</span>
+                        </div>
+                    @endif
                 <div class="d-flex flex-column flex-md-row align-items-center gap-3 border rounded p-3">
                     <div class="d-flex gap-3">
                         <img class="rounded" data-onerror-image="{{ asset('public/assets/admin/img/160x160/img1.jpg') }}"
@@ -837,5 +843,30 @@
                 }
             })
         }
+    </script>
+    <script>
+        $('.data-deny').on('click', function(){
+            // let url = $(this).data('url');
+            // let message = $(this).data('message');
+
+            Swal.fire({
+                title: 'Are you sure',
+                // text: message,
+                type: 'warning',
+                showCancelButton: true,
+                cancelButtonColor: 'default',
+                confirmButtonColor: '#FC6A57',
+                cancelButtonText: 'No',
+                confirmButtonText: 'Yes',
+                reverseButtons: true,
+                html: `<p>Tell us why you want to suspend this delivery man.</p><textarea name="reason" class="form-control" id="denyReason" cols="30" rows="3"></textarea>`
+            }).then((result) => {
+                if (result.value) {
+                    let url = $(this).data('url')+'?reason='+$('#denyReason').val();
+                    // console.log(url);
+                    location.href = url;
+                }
+            })
+        })
     </script>
 @endpush

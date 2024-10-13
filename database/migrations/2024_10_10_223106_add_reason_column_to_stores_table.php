@@ -11,9 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('disbursement_withdrawal_methods', function (Blueprint $table) {
-            $table->text('store_name')->nullable();
-            $table->tinyInteger('pending_status')->default(1)->nullable();
+        Schema::table('stores', function (Blueprint $table) {
+            $table->text('reason')->nullable();
         });
     }
 
@@ -22,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-       //
+        Schema::table('stores', function (Blueprint $table) {
+            //
+        });
     }
 };

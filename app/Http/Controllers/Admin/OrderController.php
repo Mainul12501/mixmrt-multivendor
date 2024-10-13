@@ -470,7 +470,7 @@ class OrderController extends Controller
                 Toastr::info(translate('Refunded amount added to customer wallet'));
                 $refund_method = 'wallet';
             } else {
-                Toastr::warning(translate('Customer Wallet Refund is not active.Plase Manage the Refund Amount Manually'));
+                Toastr::warning(translate('Customer Wallet Refund is not active.Please Manage the Refund Amount Manually'));
                 $refund_method = $request->refund_method  ?? 'manual';
             }
             Refund::where('order_id', $order->id)->update([
@@ -759,9 +759,9 @@ class OrderController extends Controller
             Toastr::warning(translate('all_image_delete_warning'));
             return back();
         }
-     
+
         Helpers::check_and_delete('order/' , $request['name']);
-        
+
         foreach ($proof as $image) {
             if ($image != $request['name']) {
                 array_push($array, $image);

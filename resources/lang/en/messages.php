@@ -5221,4 +5221,6 @@
   'Requested Method' => 'Requested Method',
   'Owner Information' => 'Owner Information',
   'Store Name' => 'Store Name',
+  'you_want_to_unsuspend_this_deliveryman' => 'You want to unsuspend this deliveryman',
+  'Something went wrong' => 'Something went wrong',
 );
