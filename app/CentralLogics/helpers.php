@@ -872,7 +872,7 @@ class Helpers
                     }
                 }
 
-//                $item['delivery_address'] = $item->delivery_address ? json_decode($item->delivery_address, true) : null;
+                $item['delivery_address'] = $item->delivery_address ? json_decode($item->delivery_address, true) : null;
                 $item['details_count'] = (int)$item->details->count();
                 $item['min_delivery_time'] =  $item->store ? (int)explode('-',$item->store?->delivery_time)[0] ?? 0:0;
                 $item['max_delivery_time'] =  $item->store ? (int)explode('-',$item->store?->delivery_time)[1] ?? 0:0;

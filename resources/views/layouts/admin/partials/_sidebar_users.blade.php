@@ -162,6 +162,13 @@
                                 <span class="text-truncate text-capitalize">{{ translate('messages.bonus') }}</span>
                             </a>
                         </li>
+
+                        <li class="nav-item {{ Request::is('admin/users/customer/wallet/show-wallet-transfer-list*') ? 'active' : '' }}">
+                            <a class="nav-link " href="{{ route('admin.customer.wallet.show-wallet-transfer-list') }}" title="{{ translate('messages.Bank Transfer Requests') }}">
+                                <span class="tio-circle nav-indicator-icon"></span>
+                                <span class="text-truncate text-capitalize">{{ translate('messages.Bank Transfer Requests') }}</span>
+                            </a>
+                        </li>
                     </ul>
                 </li>
 

@@ -312,8 +312,6 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
         });
 
 
-
-
         Route::get('addon/system-addons', function (){
             return to_route('admin.system-addon.index');
         })->name('addon.index');
@@ -571,6 +569,11 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
                 Route::get('add-fund', 'CustomerWalletController@add_fund_view')->name('add-fund');
                 Route::post('add-fund', 'CustomerWalletController@add_fund');
                 Route::get('report', 'CustomerWalletController@report')->name('report');
+
+                //        show wallet to bank req list
+                Route::get('/show-wallet-transfer-list/{status?}', [WalletMethodController::class, 'showList'])->name('show-wallet-transfer-list');
+                Route::get('/change-wallet-to-bank-req-status/{walletToBank}/{status?}', [WalletMethodController::class, 'changeWalletToBankStatus'])->name('change-wallet-to-bank-req-status');
+
             });
             Route::group(['middleware' => ['module:customer_management']], function () {
 

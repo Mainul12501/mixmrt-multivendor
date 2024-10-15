@@ -5223,4 +5223,6 @@
   'Store Name' => 'Store Name',
   'you_want_to_unsuspend_this_deliveryman' => 'You want to unsuspend this deliveryman',
   'Something went wrong' => 'Something went wrong',
+  'Wallet to Bank List' => 'Wallet to Bank List',
+  'Bank Transfer Requests' => 'Bank Transfer Requests',
 );

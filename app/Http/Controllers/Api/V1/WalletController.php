@@ -160,7 +160,7 @@ class WalletController extends Controller
             DB::beginTransaction();
             $walletToBank->save();
             DB::commit();
-            return response()->json(['success' => ['message' => 'Request sent successfully.']], 403);
+            return response()->json(['success' => ['message' => 'Request sent successfully.']]);
         } catch (\Exception $exception)
         {
             return response()->json($exception->getMessage());

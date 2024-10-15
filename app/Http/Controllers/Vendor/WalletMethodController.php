@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Vendor;
 use App\Models\DisbursementWithdrawalMethod;
 use App\CentralLogics\Helpers;
 use App\Models\Store;
+use App\Models\WalletToBank;
 use App\Models\WithdrawalMethod;
 use App\Http\Controllers\Controller;
 use Brian2694\Toastr\Facades\Toastr;
@@ -133,4 +134,40 @@ class WalletMethodController extends Controller
         return back();
     }
 
+    public function showList(Request $request)
+    {
+
+        return view('admin-views.wallet-bank.index', [
+            'transferRequests'  => WalletToBank::where(['payment_status' => $request->status ?? 'pending'])->get(),
+            'reqPage'   => $request->status ?? 'pending',
+        ]);
+    }
+
+    public function changeWalletToBankStatus(WalletToBank $walletToBank, Request $request)
+    {
+        if ($walletToBank->user->wallet_balance < $walletToBank->request_balance)
+        {
+            Toastr::error('Wallet Balance Is Lower Then Requested Balance.');
+            return back();
+        }
+        if ($request->status == 'approved')
+        {
+            try {
+                $walletToBank->user->wallet_balance = $walletToBank->user->wallet_balance - $walletToBank->request_balance;
+                $walletToBank->user->save();
+                Toastr::success('Wallet To Bank Transfer Request Approved Successfully.');
+            } catch (\Exception $exception)
+            {
+                Toastr::error($exception->getMessage());
+                return back();
+            }
+        } elseif ($request->status == 'rejected')
+        {
+            Toastr::success('Wallet To Bank Transfer Request Rejected Successfully.');
+        }
+        $walletToBank->update(['payment_status' => $request->status]);
+
+
+        return back();
+    }
 }
