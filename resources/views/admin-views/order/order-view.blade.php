@@ -1173,7 +1173,7 @@
                                         (($refund && $refund->value == true) || $order->order_status == 'refund_requested') &&
                                             $order->payment_status == 'paid' &&
                                             $order->order_status != 'refunded')
-                                        <button class="btn btn--primary btn--sm route-alert"
+                                        <button class="btn btn--primary btn--sm route-alert-refund-accept"
                                                 data-url="{{ route('admin.order.status', ['id' => $order['id'],'order_status' => 'refunded',
                                             ]) }}" data-message="{{ translate('messages.you_want_to_refund_this_order', ['amount' => $refund_amount . ' ' . \App\CentralLogics\Helpers::currency_code()]) }}" data-title="{{ translate('messages.are_you_sure_want_to_refund') }}"
                                         ><i
@@ -2631,6 +2631,50 @@
                         }
                     });
                 });
+
+
+            $('.route-alert-refund-accept').on('click', function () {
+                // Assuming $reasons is properly populated and contains reasons
+
+                // Create a select dropdown with options using map()
+                var selectOptions = '';
+                selectOptions   += `<option value="with-dm" selected>With Delivery Charge</option>`;
+                selectOptions   += `<option value="without-dm" >With Out Delivery Charge</option>`;
+
+
+                // Generate the Swal modal with the select dropdown
+                Swal.fire({
+                    title: '{{ translate('messages.are_you_sure') }}',
+                    text: '{{ translate('messages.Approve this refund request ?') }}',
+                    type: 'warning',
+                    html: `<select class="form-control js-select2-custom mx-1" name="reason" id="reason">${selectOptions}</select>`,
+                    showCancelButton: true,
+                    cancelButtonColor: 'default',
+                    confirmButtonColor: '#FC6A57',
+                    cancelButtonText: '{{ translate('messages.no') }}',
+                    confirmButtonText: '{{ translate('messages.yes') }}',
+                    reverseButtons: true,
+                    onOpen: function () {
+                        // Initialize select2 after the modal is opened
+                        $('.js-select2-custom').select2({
+                            minimumResultsForSearch: 5,
+                            width: '100%',
+                            placeholder: "Select A Method",
+                            language: "en",
+                        });
+                    }
+                }).then((result) => {
+                    if (result.value) {
+                        // On confirmation, get the selected reason and redirect
+                        var reason = $('#reason').val();
+
+                        // Redirect the user to the generated URL
+                        window.location.href = $(this).attr('data-url')+'&method='+reason;
+                    }
+                });
+            });
+
+
             });
     </script>
     <script>

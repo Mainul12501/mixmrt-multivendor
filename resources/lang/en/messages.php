@@ -5225,4 +5225,11 @@
   'Something went wrong' => 'Something went wrong',
   'Wallet to Bank List' => 'Wallet to Bank List',
   'Bank Transfer Requests' => 'Bank Transfer Requests',
+  'First Capital' => 'First Capital',
+  'Ecobank' => 'Ecobank',
+  'First Alliance Bank' => 'First Alliance Bank',
+  'Joining Request Date' => 'Joining Request Date',
+  'FNB' => 'FNB',
+  'Approve this refund request ?' => 'Approve this refund request ?',
+  'you_can_not_change_the_status_of_a_completed_order' => 'You can not change the status of a completed order',
 );

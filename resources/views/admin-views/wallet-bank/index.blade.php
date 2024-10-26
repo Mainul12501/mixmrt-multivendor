@@ -34,13 +34,13 @@
                         <!-- Nav -->
                         <ul class="nav nav-tabs mb-3 border-0 nav--tabs">
                             <li class="nav-item">
-                                <a class="nav-link {{ $reqPage == 'pending' ? 'active' : '' }}" href="{{ route('admin.customer.wallet.show-wallet-transfer-list', ['status' => 'pending']) }}" aria-disabled="true">Pending Requests</a>
+                                <a class="nav-link {{ $reqPage == 'pending' ? 'active' : '' }}" href="{{ route('admin.users.customer.wallet.show-wallet-transfer-list', ['status' => 'pending']) }}" aria-disabled="true">Pending Requests</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link {{ $reqPage == 'approved' ? 'active' : '' }}" href="{{ route('admin.customer.wallet.show-wallet-transfer-list', ['status' => 'approved']) }}" aria-disabled="true">Approved stores</a>
+                                <a class="nav-link {{ $reqPage == 'approved' ? 'active' : '' }}" href="{{ route('admin.users.customer.wallet.show-wallet-transfer-list', ['status' => 'approved']) }}" aria-disabled="true">Approved Requests</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link {{ $reqPage == 'rejected' ? 'active' : '' }}" href="{{ route('admin.customer.wallet.show-wallet-transfer-list', ['status' => 'rejected']) }}" aria-disabled="true">Rejected stores</a>
+                                <a class="nav-link {{ $reqPage == 'rejected' ? 'active' : '' }}" href="{{ route('admin.users.customer.wallet.show-wallet-transfer-list', ['status' => 'rejected']) }}" aria-disabled="true">Rejected stores</a>
                             </li>
                         </ul>
                         <!-- End Nav -->
@@ -86,10 +86,10 @@
                                 <td>
                                     <div class="btn--container">
                                         @if($reqPage == 'rejected' || $reqPage == 'pending')
-                                            <a class="btn action-btn btn--primary btn-outline-primary float-right mr-2 request_alert" data-toggle="tooltip" data-placement="top" data-original-title="Approve" data-url="{{ route('admin.customer.wallet.change-wallet-to-bank-req-status', ['walletToBank' => $transferRequest->id, 'status' => 'approved']) }}" data-message="You want to approve this Request" href="javascript:"><i class="tio-done font-weight-bold"></i></a>
+                                            <a class="btn action-btn btn--primary btn-outline-primary float-right mr-2 request_alert" data-toggle="tooltip" data-placement="top" data-original-title="Approve" data-url="{{ route('admin.users.customer.wallet.change-wallet-to-bank-req-status', ['walletToBank' => $transferRequest->id, 'status' => 'approved']) }}" data-message="You want to approve this Request" href="javascript:"><i class="tio-done font-weight-bold"></i></a>
                                         @endif
                                         @if($reqPage == 'pending')
-                                            <a class="btn action-btn btn--danger btn-outline-danger float-right request_alert" data-toggle="tooltip" data-placement="top" data-original-title="Deny" data-url="{{ route('admin.customer.wallet.change-wallet-to-bank-req-status', ['walletToBank' => $transferRequest->id, 'status' => 'rejected']) }}" data-message="You want to deny this Request" href="javascript:"><i class="tio-clear font-weight-bold"></i></a>
+                                            <a class="btn action-btn btn--danger btn-outline-danger float-right request_alert" data-toggle="tooltip" data-placement="top" data-original-title="Deny" data-url="{{ route('admin.users.customer.wallet.change-wallet-to-bank-req-status', ['walletToBank' => $transferRequest->id, 'status' => 'rejected']) }}" data-message="You want to deny this Request" href="javascript:"><i class="tio-clear font-weight-bold"></i></a>
                                         @endif
                                     </div>
                                 </td>

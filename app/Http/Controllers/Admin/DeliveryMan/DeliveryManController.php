@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin\DeliveryMan;
 
+use App\Models\DisbursementWithdrawalMethod;
 use Exception;
 use App\Models\Order;
 use Illuminate\View\View;
@@ -312,13 +313,14 @@ class DeliveryManController extends BaseController
 
     }
 
-    public function getPreview(Request $request, int|string $id, string $tab='info'): View
+    public function getPreview(Request $request, int|string $id, string $tab='info')
     {
         $deliveryMan = $this->deliveryManRepo->getFirstWhere(params: ['type' => 'zone_wise','id' => $id], relations: ['reviews']);
+        $disbursementWithdrawalMethods = DisbursementWithdrawalMethod::where(['delivery_man_id' => $id])->get();
         if($tab == 'info')
         {
             $reviews = $this->dmReviewRepo->getListWhere(filters: ['delivery_man_id'=>$id], dataLimit: config('default_pagination'));
-            return view(DeliveryManViewPath::INFO[VIEW], compact('deliveryMan', 'reviews'));
+            return view(DeliveryManViewPath::INFO[VIEW], compact('deliveryMan', 'reviews', 'disbursementWithdrawalMethods'));
         }
         else if($tab == 'transaction')
         {
@@ -352,7 +354,7 @@ class DeliveryManController extends BaseController
             $conversations = [];
         }
 
-        return view(DeliveryManViewPath::CONVERSATION[VIEW], compact('conversations','deliveryMan'));
+        return view(DeliveryManViewPath::CONVERSATION[VIEW], compact('conversations','deliveryMan', 'disbursementWithdrawalMethods'));
 
     }
 

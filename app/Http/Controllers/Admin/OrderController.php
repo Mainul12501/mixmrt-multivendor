@@ -364,6 +364,7 @@ class OrderController extends Controller
 
     public function status(Request $request)
     {
+
         $request->validate([
             'reason'=>'required_if:order_status,canceled'
         ]);
@@ -450,6 +451,7 @@ class OrderController extends Controller
             OrderLogic::update_unpaid_order_payment(order_id:$order->id, payment_method:$order->payment_method);
 
         } else if ($request->order_status == 'refunded' && BusinessSetting::where('key', 'refund_active_status')->first()->value == 1) {
+
             if ($order->payment_status == "unpaid") {
                 Toastr::warning(translate('messages.you_can_not_refund_a_cod_order'));
                 return back();
@@ -461,11 +463,13 @@ class OrderController extends Controller
                     return back();
                 }
             }
+
             $refund_method = $request->refund_method  ?? 'manual';
             $wallet_status = BusinessSetting::where('key', 'wallet_status')->first()->value;
             $refund_to_wallet = BusinessSetting::where('key', 'wallet_add_refund')->first()->value;
+
             if ($order->payment_status == "paid" && $wallet_status == 1 && $refund_to_wallet == 1) {
-                $refund_amount = round($order->order_amount - $order->delivery_charge - $order->dm_tips, config('round_up_to_digit'));
+                $refund_amount = round($order->order_amount - ($request->method == 'with-dm' ? $order->delivery_charge : 0) - $order->dm_tips, config('round_up_to_digit'));
                 CustomerLogic::create_wallet_transaction($order->user_id, $refund_amount, 'order_refund', $order->id);
                 Toastr::info(translate('Refunded amount added to customer wallet'));
                 $refund_method = 'wallet';
@@ -473,6 +477,7 @@ class OrderController extends Controller
                 Toastr::warning(translate('Customer Wallet Refund is not active.Please Manage the Refund Amount Manually'));
                 $refund_method = $request->refund_method  ?? 'manual';
             }
+
             Refund::where('order_id', $order->id)->update([
                 'order_status' => 'refunded',
                 'admin_note' => $request->admin_note ?? null,
@@ -497,6 +502,7 @@ class OrderController extends Controller
                 Toastr::error(translate('messages.Failed_to_send_mail'));
             }
         } else if ($request->order_status == 'canceled') {
+
             if (in_array($order->order_status, ['delivered', 'canceled', 'refund_requested', 'refunded', 'failed', 'picked_up']) || $order->picked_up) {
                 Toastr::warning(translate('messages.you_can_not_cancel_a_completed_order'));
                 return back();

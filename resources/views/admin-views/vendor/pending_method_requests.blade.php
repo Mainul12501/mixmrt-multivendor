@@ -93,10 +93,12 @@
 
                     <tbody id="set-rows">
                     @foreach($disbursementWithdrawlMethods as $key=>$disbursementWithdrawlMethod)
+                        @if(isset($disbursementWithdrawlMethod->store_id))
                         <tr>
                             <td>{{$key+$disbursementWithdrawlMethods->firstItem()}}</td>
                             <td>
                                 <div>
+
                                     <a href="{{route('admin.store.view', $disbursementWithdrawlMethod->store_id)}}" class="table-rest-info" alt="view store">
                                         <img class="img--60 circle onerror-image" data-onerror-image="{{asset('public/assets/admin/img/160x160/img1.jpg')}}"
                                         src="{{ \App\CentralLogics\Helpers::get_image_helper(
@@ -135,6 +137,7 @@
                             <td>{{ $disbursementWithdrawlMethod->pending_status == 1 ? 'Pending' : 'Accepted' }}</td>
 
                         </tr>
+                        @endif
                     @endforeach
                     </tbody>
                 </table>

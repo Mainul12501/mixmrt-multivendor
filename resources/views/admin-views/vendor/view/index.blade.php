@@ -146,6 +146,10 @@
                                         <span>{{translate('messages.Register_no')}}</span> <span>:</span> <span>{{$store->register_no}}</span>
                                     </li>
                                     @endif
+                            <li>
+                                <i class="tio-date-range nav-icon"></i>
+                                <span>Joining request date </span> <span>: </span> <span>{{ $store->created_at->format('d-M-Y') ?? 'No Data Available' }}</span>
+                            </li>
                         </ul>
                     </div>
                 </div>

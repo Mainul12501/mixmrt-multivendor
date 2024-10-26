@@ -570,9 +570,6 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
                 Route::post('add-fund', 'CustomerWalletController@add_fund');
                 Route::get('report', 'CustomerWalletController@report')->name('report');
 
-                //        show wallet to bank req list
-                Route::get('/show-wallet-transfer-list/{status?}', [WalletMethodController::class, 'showList'])->name('show-wallet-transfer-list');
-                Route::get('/change-wallet-to-bank-req-status/{walletToBank}/{status?}', [WalletMethodController::class, 'changeWalletToBankStatus'])->name('change-wallet-to-bank-req-status');
 
             });
             Route::group(['middleware' => ['module:customer_management']], function () {
@@ -707,6 +704,11 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
                     Route::post('set-date', 'CustomerWalletController@set_date')->name('set-date');
                     Route::get('report', 'CustomerWalletController@report')->name('report');
                     Route::get('export', 'CustomerWalletController@export')->name('export');
+
+                    //        show wallet to bank req list
+                    Route::get('/show-wallet-transfer-list/{status?}', [WalletMethodController::class, 'showList'])->name('show-wallet-transfer-list');
+                    Route::get('/change-wallet-to-bank-req-status/{walletToBank}/{status?}', [WalletMethodController::class, 'changeWalletToBankStatus'])->name('change-wallet-to-bank-req-status');
+
                 });
 
                 Route::group(['middleware' => ['module:customer_management']], function () {

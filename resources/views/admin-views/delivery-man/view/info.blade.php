@@ -513,6 +513,10 @@
                             <div>{{ translate('messages.identification_number') }}</div>:
                             <div>{{ $deliveryMan->identity_number }}</div>
                         </div>
+                        <div class="key-val-list-item d-flex gap-3">
+                            <div>{{ translate('messages.Joining Request Date') }}</div>:
+                            <div>{{ $deliveryMan->created_at->format('d-M-Y') ?? 'No Data Available' }}</div>
+                        </div>
                     </div>
                     @if ($deliveryMan->application_status == 'pending')
                         <div class="col-sm-6 col-lg-4">
@@ -528,6 +532,49 @@
                             </div>
                         </div>
                     @endif
+
+                        @if( !empty($disbursementWithdrawalMethods) )
+                        <div class="col-sm-6 col-lg-4">
+                            <div class="card h-100">
+                                <div class="card-header">
+                                    <h5 class="card-title m-0 d-flex align-items-center">
+                        <span class="card-header-icon mr-2">
+                            <i class="tio-crown"></i>
+                        </span>
+                                        <span class="ml-1">{{translate('messages.Active Disbursement')}}</span>
+                                    </h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="resturant--info-address">
+                                        <ul class="address-info address-info-2 list-unstyled list-unstyled-py-3 text-dark">
+                                            @foreach($disbursementWithdrawalMethods as $disbursementWithdrawalMethod)
+                                                @if($disbursementWithdrawalMethod->is_default == 1)
+                                                    <li>
+                                                        <span>  <strong>{{translate('messages.Withdrawal_Method')}}</span></strong>  <span>:</span> &nbsp; {{ translate($disbursementWithdrawalMethod->method_name ?? '') }}
+                                                    </li>
+                                                    @if(!empty($disbursementWithdrawalMethod->method_fields))
+                                                        @foreach(json_decode($disbursementWithdrawalMethod->method_fields) as $key => $field)
+                                                            <li>
+                                                                <span><strong>{{translate($key)}}</strong></span> <span>:</span> &nbsp; {{ $field ?? '' }}
+                                                            </li>
+                                                        @endforeach
+                                                    @endif
+                                                @endif
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                    @if(count($disbursementWithdrawalMethods) > 1)
+                                        <div>
+                                            <button class="btn text-white text-capitalize bg--title btn-sm float-right" id="collect_cash"
+                                                    type="button" data-toggle="modal" data-target="#checkPendingRequest"
+                                                    title="Collect Cash">{{ translate('messages.Check Pending Request') }}
+                                            </button>
+                                        </div>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+                        @endif
                     <div class=" {{ $deliveryMan->application_status == 'pending' ? 'col-12' : 'col-6' }} ">
                         @if ($deliveryMan->application_status == 'pending')
                             <h5 class="mb-3 mt-5">{{ translate('messages.Identity_Image') }}</h5>
@@ -815,9 +862,95 @@
     @endif
 
     </div>
+
+
+    <div class="modal fade" id="checkPendingRequest" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">{{translate('messages.Check Pending Request')}}</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div>
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th>SL</th>
+                                <th>Payment Method Name</th>
+                                <th>Payment Info</th>
+                                <th>Default</th>
+                                <th>Pending Status</th>
+                                <th>Action</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @foreach($disbursementWithdrawalMethods as $key => $value)
+                                <tr>
+                                    <td>{{ $loop->iteration }}</td>
+                                    <td>{{ $value->method_name }}</td>
+                                    <td>
+                                        @foreach(json_decode($value->method_fields) as $index => $val)
+                                            <p><b class="text-uppercase">{{ $index }}:</b> {{ $val }}</p>
+                                        @endforeach
+                                    </td>
+                                    <td>{{ $value->is_default == 1 ? 'Yes' : 'No' }}</td>
+                                    <td>{{ $value->pending_status == 1 ? 'Yes' : 'No' }}</td>
+                                    <td>
+                                        <div class="d-flex">
+                                            @if($value->pending_status == 1)
+                                                <a class="btn btn-sm btn--warning btn-outline-success action-btn acc-dis-wit-met" href="javascript:" data-url="{{ route('admin.accept-dis-wid-met', ['id' => $value->id]) }}" title="Accept" data-message="Want to accept this ? This will remove previous data.">
+                                                    <i class="tio-checkmark-square-outlined"></i>
+                                                </a>
+                                            @endif
+                                            @if($value->is_default != 1)
+                                                <form action="{{ route('admin.delete-dis-wid-met', ['id' => $value->id]) }}" method="post">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn btn-sm btn--danger btn-outline-danger action-btn del-dis-wit-met ml-1" href="javascript:" data-url="" title="Delete" data-message="Want to delete this item ?">
+                                                        <i class="tio-delete-outlined"></i>
+                                                    </button>
+                                                </form>
+                                            @endif
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @push('script_2')
+    <script>
+        $(document).on('click', '.del-dis-wit-met', function () {
+            event.preventDefault();
+            Swal.fire({
+                title: '{{translate('messages.are_you_sure')}}',
+                text: $(this).attr('data-message'),
+                type: 'warning',
+                showCancelButton: true,
+                cancelButtonColor: 'default',
+                confirmButtonColor: '#FC6A57',
+                cancelButtonText: '{{translate('messages.no')}}',
+                confirmButtonText: '{{translate('messages.yes')}}',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.value) {
+                    $(this).closest('form').submit();
+                }
+            })
+        })
+        $(document).on('click', '.acc-dis-wit-met', function () {
+            request_alert($(this).attr('data-url'), $(this).attr('data-message'))
+        })
+    </script>
     <script>
         "use strict";
         $('.request-alert').on('click', function() {
