@@ -89,7 +89,7 @@ class DeliveryManLoginController extends Controller
         $validator = Validator::make($request->all(), [
             'f_name' => 'required',
 //            'identity_type' => 'required|in:passport,driving_license,nid',
-            'identity_type' => 'required|in:nid',
+            'identity_type' => 'required|in:passport,driving_license,nid,nrc',
             'identity_number' => 'required|unique:delivery_men',
             'email' => 'required|unique:delivery_men',
             'phone' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:10|unique:delivery_men',

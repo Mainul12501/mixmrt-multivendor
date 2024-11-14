@@ -901,7 +901,7 @@
                                     <td>
                                         <div class="d-flex">
                                             @if($value->pending_status == 1)
-                                                <a class="btn btn-sm btn--warning btn-outline-success action-btn acc-dis-wit-met" href="javascript:" data-url="{{ route('admin.accept-dis-wid-met', ['id' => $value->id]) }}" title="Accept" data-message="Want to accept this ? This will remove previous data.">
+                                                <a class="btn btn-sm btn--warning btn-outline-success action-btn acc-dis-wit-met" href="javascript:" data-url="{{ route('admin.accept-dis-wid-met', ['id' => $value->id, 'req_from' =>  'dm']) }}" title="Accept" data-message="Want to accept this ? This will remove previous data.">
                                                     <i class="tio-checkmark-square-outlined"></i>
                                                 </a>
                                             @endif

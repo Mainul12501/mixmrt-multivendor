@@ -125,9 +125,10 @@ $countryCode= strtolower($country?$country->value:'auto');
                                         <label class="input-label"
                                             for="exampleFormControlInput1">{{ translate('messages.identity_type') }}</label>
                                         <select name="identity_type" class="form-control __form-control"> <!--mainul-->
-{{--                                            <option value="passport">{{ translate('messages.passport') }}</option>--}}
-{{--                                            <option value="driving_license">{{ translate('messages.driving_license') }}</option>--}}
+                                            <option value="passport">{{ translate('messages.passport') }}</option>
+                                            <option value="driving_license">{{ translate('messages.driving_license') }}</option>
                                             <option value="nid">{{ translate('messages.nid') }}</option>
+                                            <option value="nrc">{{ translate('messages.NRC') }}</option>
 {{--                                            <option value="restaurant_id">{{ translate('messages.store_id') }}</option>--}}
                                         </select>
                                     </div>

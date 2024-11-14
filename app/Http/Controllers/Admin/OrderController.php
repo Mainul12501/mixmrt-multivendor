@@ -364,7 +364,6 @@ class OrderController extends Controller
 
     public function status(Request $request)
     {
-
         $request->validate([
             'reason'=>'required_if:order_status,canceled'
         ]);
@@ -456,6 +455,7 @@ class OrderController extends Controller
                 Toastr::warning(translate('messages.you_can_not_refund_a_cod_order'));
                 return back();
             }
+
             if (isset($order->delivered)) {
                 $rt = OrderLogic::refund_order($order);
                 if (!$rt) {
@@ -464,25 +464,31 @@ class OrderController extends Controller
                 }
             }
 
+
             $refund_method = $request->refund_method  ?? 'manual';
             $wallet_status = BusinessSetting::where('key', 'wallet_status')->first()->value;
             $refund_to_wallet = BusinessSetting::where('key', 'wallet_add_refund')->first()->value;
 
+            $refund_amount_final = 0;
             if ($order->payment_status == "paid" && $wallet_status == 1 && $refund_to_wallet == 1) {
-                $refund_amount = round($order->order_amount - ($request->method == 'with-dm' ? $order->delivery_charge : 0) - $order->dm_tips, config('round_up_to_digit'));
+                $refund_amount = round($order->order_amount - ($request->method == 'without-dm' ? $order->delivery_charge : 0) - $order->dm_tips, config('round_up_to_digit'));
                 CustomerLogic::create_wallet_transaction($order->user_id, $refund_amount, 'order_refund', $order->id);
                 Toastr::info(translate('Refunded amount added to customer wallet'));
                 $refund_method = 'wallet';
+                $refund_amount_final = $refund_amount;
             } else {
                 Toastr::warning(translate('Customer Wallet Refund is not active.Please Manage the Refund Amount Manually'));
                 $refund_method = $request->refund_method  ?? 'manual';
             }
-
+            if (!$refund_amount_final > 0) {
+                $refund_amount_final = Refund::where('order_id', $request->id)->first()->refund_amount;
+            }
             Refund::where('order_id', $order->id)->update([
                 'order_status' => 'refunded',
                 'admin_note' => $request->admin_note ?? null,
                 'refund_status' => 'approved',
                 'refund_method' => $refund_method,
+                'refund_amount' => $refund_amount_final ?? 0
             ]);
             $order?->store ?   Helpers::increment_order_count($order?->store) : '';
 

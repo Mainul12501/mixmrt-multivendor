@@ -632,7 +632,7 @@ class OrderController extends Controller
 
                 $order->cancellation_reason = $request->reason;
                 $order->canceled_by = 'store';
-                
+
                 $order?->store ?   Helpers::increment_order_count($order?->store) : '';
 
             }
@@ -931,9 +931,9 @@ class OrderController extends Controller
             Toastr::warning(translate('all_image_delete_warning'));
             return back();
         }
-      
+
         Helpers::check_and_delete('order/' , $request['name']);
-        
+
         foreach ($proof as $image) {
             if ($image != $request['name']) {
                 array_push($array, $image);

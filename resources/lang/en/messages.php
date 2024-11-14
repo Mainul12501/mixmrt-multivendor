@@ -5232,4 +5232,7 @@
   'FNB' => 'FNB',
   'Approve this refund request ?' => 'Approve this refund request ?',
   'you_can_not_change_the_status_of_a_completed_order' => 'You can not change the status of a completed order',
+  'you have a refund request' => 'You have a refund request',
+  'refund request' => 'Refund request',
+  'NRC' => 'NRC',
 );

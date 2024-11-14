@@ -9,6 +9,7 @@ use App\Models\Store;
 use App\Models\WalletToBank;
 use App\Models\WithdrawalMethod;
 use App\Http\Controllers\Controller;
+use App\Traits\NotificationTrait;
 use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -16,6 +17,7 @@ use Illuminate\Support\Facades\DB;
 
 class WalletMethodController extends Controller
 {
+    use NotificationTrait;
     public function index(Request $request)
     {
         $key = explode(' ', $request['search']);
@@ -126,7 +128,13 @@ class WalletMethodController extends Controller
     public function accept(Request $request)
     {
         $method = DisbursementWithdrawalMethod::find($request->id);
-        DisbursementWithdrawalMethod::where(['store_id'=>$method->store_id, 'is_default' => 1])->first()->delete();
+        if ($request->req_form == 'dm')
+        {
+            DisbursementWithdrawalMethod::where(['delivery_man_id'=>$method->delivery_man_id, 'is_default' => 1])->first()->delete();
+        } else {
+            DisbursementWithdrawalMethod::where(['store_id'=>$method->store_id, 'is_default' => 1])->first()->delete();
+        }
+
         $method->pending_status = 0;
         $method->is_default = 1;
         $method->save();

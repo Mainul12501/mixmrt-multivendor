@@ -1789,6 +1789,7 @@ class OrderController extends Controller
             } catch (\Exception $ex) {
                 info($ex->getMessage());
             }
+
             try {
                 $storeEmail = Store::find($order->store_id)->email;
                 if (config('mail.status') && $storeEmail !=null && $mail_status == '1') {
@@ -1797,6 +1798,32 @@ class OrderController extends Controller
             } catch (\Exception $ex) {
                 info($ex->getMessage());
             }
+
+            $data = [
+                'title' => 'You have a refund request',
+                'description' => 'You have a refund request of order - '.$order->id,
+                'order_id' => $order->id,
+                'type' => 'general',
+                'image' => ''
+            ];
+
+            if ($order?->store && $order->store?->vendor) {
+                try {
+                    \App\CentralLogics\Helpers::send_push_notif_to_device($order->store->vendor->firebase_token, $data);
+                    DB::table('user_notifications')->insert([
+                        'data' => json_encode($data),
+                        'vendor_id' => $order->store->vendor_id,
+                        'created_at' => now(),
+                        'updated_at' => now()
+                    ]);
+                } catch (\Exception $exception) {
+                    info($exception->getMessage());
+                }
+            }
+
+
+
+
             return response()->json(['message' => translate('messages.refund_request_placed_successfully')], 200);
         }
         return response()->json([
