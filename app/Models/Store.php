@@ -736,6 +736,12 @@ class Store extends Model
             $store->slug = $store->generateSlug($store->name);
             $store->save();
         });
+        static::deleting(function ($store){
+            if (!empty($store->disbursmentWithdrawalMethods))
+            {
+                $store->disbursmentWithdrawalMethods->each->delete();
+            }
+        });
         static::saved(function ($model) {
             if($model->isDirty('logo')){
                 $value = Helpers::getDisk();
@@ -780,6 +786,8 @@ class Store extends Model
     }
 
 
+
+
     /**
      * @return HasOne
      */
@@ -812,5 +820,9 @@ class Store extends Model
             return $query->where('store_business_model', 'none');
         }
         return $query;
+    }
+    public function disbursmentWithdrawalMethods()
+    {
+        return $this->hasMany(DisbursementWithdrawalMethod::class);
     }
 }

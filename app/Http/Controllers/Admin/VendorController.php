@@ -700,7 +700,7 @@ class VendorController extends Controller
 
     public function pending_method_requests()
     {
-        $disbursementWithdrawlMethods = DisbursementWithdrawalMethod::where('pending_status', 1)->with('store')->paginate(config('default_pagination'));
+        $disbursementWithdrawlMethods = DisbursementWithdrawalMethod::where('pending_status', 1)->where('store_id', '!=', null)->with('store', 'deliveryMan')->paginate(config('default_pagination'));
         return view('admin-views.vendor.pending_method_requests', compact('disbursementWithdrawlMethods'));
     }
 

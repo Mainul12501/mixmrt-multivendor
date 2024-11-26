@@ -272,6 +272,7 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
                     Route::get(DeliveryMan::ADD[URI], [DeliveryManController::class, 'getAddView'])->name('add');
                     Route::post(DeliveryMan::ADD[URI], [DeliveryManController::class, 'add'])->name('store');
                     Route::get(DeliveryMan::LIST[URI], [DeliveryManController::class, 'index'])->name('list');
+                    Route::get('dm-pending-disbursement-requests', [DeliveryManController::class, 'pending_method_requests'])->name('dm-pending-disbursement-requests');
                     Route::get(DeliveryMan::NEW[URI], [DeliveryManController::class, 'getNewDeliveryManView'])->name('new');
                     Route::get(DeliveryMan::DENY[URI], [DeliveryManController::class, 'getDeniedDeliveryManView'])->name('deny');
                     Route::get(DeliveryMan::PREVIEW[URI].'/{id}/{tab?}', [DeliveryManController::class, 'getPreview'])->name('preview');

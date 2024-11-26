@@ -257,6 +257,7 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
                 Route::get('list', 'CompanyController@list')->name('list');
                 Route::get('pending-requests', 'CompanyController@pending_requests')->name('pending-requests');
                 Route::get('deny-requests', 'CompanyController@deny_requests')->name('deny-requests');
+                Route::get('pending-method-requests', 'CompanyController@pending_method_requests')->name('pending-method-requests');
                 Route::post('search', 'CompanyController@search')->name('search');
                 Route::get('export', 'CompanyController@export')->name('export');
                 Route::get('store-wise-reviwe-export', 'CompanyController@store_wise_reviwe_export')->name('store_wise_reviwe_export');

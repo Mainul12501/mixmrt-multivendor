@@ -25,4 +25,8 @@ class DisbursementWithdrawalMethod extends Model
     {
         return $this->belongsTo(Store::class);
     }
+    public function deliveryMan()
+    {
+        return $this->belongsTo(DeliveryMan::class);
+    }
 }

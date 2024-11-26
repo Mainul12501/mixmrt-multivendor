@@ -60,6 +60,12 @@ class DeliveryManController extends BaseController
     {
     }
 
+    public function pending_method_requests()
+    {
+        $disbursementWithdrawlMethods = DisbursementWithdrawalMethod::where('pending_status', 1)->where('delivery_man_id', '!=', null)->with('store', 'deliveryMan', 'withdrawalMethod')->paginate(config('default_pagination'));
+        return view('admin-views.delivery-man.pending_method_requests', compact('disbursementWithdrawlMethods'));
+    }
+
     public function index(?Request $request): View|Collection|LengthAwarePaginator|null
     {
         return $this->getListView($request);

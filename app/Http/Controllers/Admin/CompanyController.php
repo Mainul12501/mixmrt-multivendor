@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Exports\DisbursementHistoryExport;
 use App\Models\DisbursementDetails;
+use App\Models\DisbursementWithdrawalMethod;
 use App\Models\Item;
 use App\Models\Zone;
 use App\Models\AddOn;
@@ -667,6 +668,12 @@ class CompanyController extends Controller
         ->type($type)->latest()->paginate(config('default_pagination'));
         $zone = is_numeric($zone_id)?Zone::findOrFail($zone_id):null;
         return view('admin-views.vendor.company_deny_requests', compact('stores','type', 'zone','search_by'));
+    }
+
+    public function pending_method_requests()
+    {
+        $disbursementWithdrawlMethods = DisbursementWithdrawalMethod::where('pending_status', 1)->where('store_id', '!=', null)->with('store', 'deliveryMan')->paginate(config('default_pagination'));
+        return view('admin-views.vendor.company_pending_method_requests', compact('disbursementWithdrawlMethods'));
     }
 
     public function export(Request $request){

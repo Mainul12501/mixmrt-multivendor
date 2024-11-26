@@ -104,6 +104,15 @@
                     </a>
                 </li>
 
+                <li class="navbar-vertical-aside-has-menu {{ Request::is('admin/users/delivery-man/dm-pending-disbursement-requests*')  ? 'active' : '' }}">
+                    <a class="js-navbar-vertical-aside-menu-link nav-link" href="{{ route('admin.users.delivery-man.dm-pending-disbursement-requests') }}" title="{{ translate('messages.DM Pending Disbursement Requests') }}">
+                        <i class="tio-filter-list nav-icon"></i>
+                        <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
+                            {{ translate('messages.DM Pending Disbursement Requests') }}
+                        </span>
+                    </a>
+                </li>
+
                 <li class="navbar-vertical-aside-has-menu {{ Request::is('admin/users/delivery-man/reviews') ? 'active' : '' }}">
                     <a class="js-navbar-vertical-aside-menu-link nav-link" href="{{ route('admin.users.delivery-man.reviews.list') }}" title="{{ translate('messages.reviews') }}">
                         <i class="tio-star-outlined nav-icon"></i>

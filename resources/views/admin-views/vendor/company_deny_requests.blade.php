@@ -24,6 +24,9 @@
                             <li class="nav-item">
                                 <a class="nav-link active" href="{{ route('admin.company.deny-requests') }}"  aria-disabled="true">{{translate('messages.denied_courier_companies')}}</a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link " href="{{ route('admin.company.pending-method-requests') }}"  aria-disabled="true">{{translate('messages.Disbursement Requests')}}</a>
+                            </li>
                         </ul>
                         <!-- End Nav -->
                     </div>

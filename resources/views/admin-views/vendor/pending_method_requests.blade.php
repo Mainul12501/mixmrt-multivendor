@@ -93,20 +93,22 @@
 
                     <tbody id="set-rows">
                     @foreach($disbursementWithdrawlMethods as $key=>$disbursementWithdrawlMethod)
-                        @if(isset($disbursementWithdrawlMethod->store_id))
+                        @if(!empty($disbursementWithdrawlMethod->store))
                         <tr>
                             <td>{{$key+$disbursementWithdrawlMethods->firstItem()}}</td>
                             <td>
                                 <div>
 
                                     <a href="{{route('admin.store.view', $disbursementWithdrawlMethod->store_id)}}" class="table-rest-info" alt="view store">
-                                        <img class="img--60 circle onerror-image" data-onerror-image="{{asset('public/assets/admin/img/160x160/img1.jpg')}}"
-                                        src="{{ \App\CentralLogics\Helpers::get_image_helper(
-                                            $disbursementWithdrawlMethod->store,'logo',
-                                            asset('storage/app/public/store').'/'.$disbursementWithdrawlMethod->store['logo'] ?? '',
-                                            asset('public/assets/admin/img/160x160/img1.jpg'),
-                                            'store/'
-                                        ) }}" >
+                                        @if(!empty($disbursementWithdrawlMethod->store))
+                                            <img class="img--60 circle onerror-image" data-onerror-image="{{asset('public/assets/admin/img/160x160/img1.jpg')}}"
+                                            src="{{ \App\CentralLogics\Helpers::get_image_helper(
+                                                $disbursementWithdrawlMethod->store,'logo',
+                                                asset('storage/app/public/store').'/'.$disbursementWithdrawlMethod->store['logo'] ?? '',
+                                                asset('public/assets/admin/img/160x160/img1.jpg'),
+                                                'store/'
+                                            ) }}" >
+                                        @endif
                                         <div class="info"><div class="text--title">
                                             {{Str::limit($disbursementWithdrawlMethod->store_name,20,'...')}}
                                             </div>
@@ -119,20 +121,28 @@
                             </td>
                             <td>
                                 <span class="d-block font-size-sm text-body">
-                                    {{Str::limit($disbursementWithdrawlMethod->store->module->module_name,20,'...')}}
+                                    @if(!empty($disbursementWithdrawlMethod->store))
+                                        {{  Str::limit($disbursementWithdrawlMethod->store->module->module_name,20,'...')}}
+                                    @endif
                                 </span>
                             </td>
                             <td>
                                 <span class="d-block font-size-sm text-body">
+                                    @if(!empty($disbursementWithdrawlMethod->store))
                                     {{Str::limit($disbursementWithdrawlMethod->store->vendor->f_name.' '.$disbursementWithdrawlMethod->store->vendor->l_name,20,'...')}}
+                                    @endif
                                 </span>
                                 <div>
+                                    @if(!empty($disbursementWithdrawlMethod->store))
                                     {{$disbursementWithdrawlMethod->store['phone'] ?? ''}}
+                                    @endif
                                 </div>
                             </td>
                             <td>{{ $disbursementWithdrawlMethod->method_name ?? 'Method Name Here' }}</td>
                             <td>
+                                @if(!empty($disbursementWithdrawlMethod->store))
                                 {{$disbursementWithdrawlMethod->store->zone?$disbursementWithdrawlMethod->store->zone->name:translate('messages.zone_deleted')}}
+                                @endif
                             </td>
                             <td>{{ $disbursementWithdrawlMethod->pending_status == 1 ? 'Pending' : 'Accepted' }}</td>
 

@@ -204,9 +204,20 @@ class DeliveryMan extends Authenticatable
         static::addGlobalScope(new ZoneScope);
     }
 
+    public function disbursementWithdrawMethods()
+    {
+        return $this->hasMany(DisbursementWithdrawalMethod::class);
+    }
+
     protected static function boot()
     {
         parent::boot();
+        static::deleting(function ($deliveryMan){
+            if (!empty($deliveryMan->disbursementWithdrawMethods))
+            {
+                $deliveryMan->disbursementWithdrawMethods->each->delete();
+            }
+        });
         static::saved(function ($model) {
             if($model->isDirty('image')){
                 $value = Helpers::getDisk();

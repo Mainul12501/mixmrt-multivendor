@@ -5235,4 +5235,11 @@
   'you have a refund request' => 'You have a refund request',
   'refund request' => 'Refund request',
   'NRC' => 'NRC',
+  'Stanbic Bank' => 'Stanbic Bank',
+  'DM Pending Disbursment' => 'DM Pending Disbursment',
+  'DM Pending Disbursement' => 'DM Pending Disbursement',
+  'DM Pending Disbursement Requests' => 'DM Pending Disbursement Requests',
+  'Info' => 'Info',
+  'Delivery Man Name' => 'Delivery Man Name',
+  'Absa Bank' => 'Absa Bank',
 );
